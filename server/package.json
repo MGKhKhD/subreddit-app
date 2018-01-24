@@ -3,10 +3,11 @@
     "body-parser": "^1.18.2",
     "express": "^4.16.2",
     "mongoose": "^5.0.1",
-    "morgan": "^1.9.0"
+    "morgan": "^1.9.0",
+    "nodemon": "^1.14.11"
   },
   "script": {
-    "start": "nodemon --exec node server.js"
+    "start": "nodemon --exec node -- server.js"
   },
   "devDependencies": {
     "nodemon": "^1.14.11"

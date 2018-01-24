@@ -1,2 +1,3 @@
 export const RECEIVE_POSTS = "RECEIVE_POSTS";
 export const UPDATE_SAVE_FLAG_OF_TODO = "UPDATE_SAVE_FLAG_OF_TODO";
+export const ADD_TODO = "ADD_TODO";

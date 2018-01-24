@@ -27,8 +27,7 @@ const TodoList = (props) =>(
 
 function mapStateToProps(state){
     return{
-        todos: state.todos,
-        updateSavedFlag: state.updateSavedFlag
+        todos: state.todos
     }
 }
 

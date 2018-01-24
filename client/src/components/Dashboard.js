@@ -3,7 +3,7 @@ import { Button, Message} from 'semantic-ui-react';
 import { connect } from 'react-redux';
 import { fetchSubreddit } from '../actions/fetching_subreddit';
 
-import DisplayPosts from './DisplayPosts';
+import DisplayPosts from './Posts/DisplayPosts';
 
 class Dashboard extends Component{
     state = {posts: [], 

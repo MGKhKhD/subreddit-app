@@ -6,7 +6,7 @@ export default {
         .then(response => response.data)
     },
 
-    fetchFromDB :{
-        fetchData: subreddit =>  axios.post(`/user/subreddits`, {subreddit})
+    postToDB :{
+        postData: subreddit =>  axios.post(`/user/subreddits`, subreddit)
     }
 }

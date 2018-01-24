@@ -31,14 +31,14 @@ export function todoClick(todo){
 export function updateSavedFlag(subreddit){
     return {
         type: UPDATE_SAVE_FLAG_OF_TODO,
-        payload: subreddit
+        payload: subreddit.todo
     };
 }
 
 export const saveTodoDB = (subreddit) => dispatch => 
-api.fetchFromDB.fetchData(subreddit)
+api.postToDB.postData(subreddit)
 .then(response => {
-    if(response.message === 'success'){
+    if(response.data){
         dispatch(updateSavedFlag(subreddit))
     }
 });
