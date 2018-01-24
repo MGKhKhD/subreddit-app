@@ -8,5 +8,9 @@ export default {
 
     postToDB :{
         postData: subreddit =>  axios.post(`/user/subreddits`, subreddit)
+    },
+
+    fetchFromDB :{
+        fetchData: subreddit =>  axios.get(`/user/subreddits`)
     }
 }

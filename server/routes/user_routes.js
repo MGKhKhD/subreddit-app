@@ -12,7 +12,6 @@ router.post('/', (req,res,next) =>{
     });
     savedSubreddit.save()
     .then(ressult => {
-        console.log('success');
         res.status(201).json({
             message: "success",
             data: savedSubreddit

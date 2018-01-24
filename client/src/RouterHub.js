@@ -3,7 +3,7 @@ import {Route, Link} from  'react-router-dom';
 import {Menu} from 'semantic-ui-react';
 
 import SettingPanel from './components/SettingPanel';
-import Dashboard from './components/Dashboard';
+import Dashboard from './containers/Dashboard';
 
 
 const HomePage = () => (

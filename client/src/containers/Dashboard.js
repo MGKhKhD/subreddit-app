@@ -3,16 +3,19 @@ import { Button, Message} from 'semantic-ui-react';
 import { connect } from 'react-redux';
 import { fetchSubreddit } from '../actions/fetching_subreddit';
 
-import DisplayPosts from './Posts/DisplayPosts';
+
+import DisplayPosts from '../components/posts/DisplayPosts';
+import ChooseSubreddit from './ChooseSubreddit';
 
 class Dashboard extends Component{
     state = {posts: [], 
         loading: false, 
-        errors: {}};
+        errors: {},
+    selectedSubreddit: ''};
 
-    onClick = () => {
-        this.setState({loading: true});
-        this.props.fetchSubreddit('news')
+    setSubreddit = (subreddit) => {
+        this.setState({loading: true, selectedSubreddit: subreddit});
+        this.props.fetchSubreddit(subreddit)
         .then(response => {
             this.setState({posts: response.payload, loading: false});
         }).catch(err => {
@@ -22,10 +25,11 @@ class Dashboard extends Component{
     }
 
     render(){
-        const { posts, loading, errors } = this.state;
+        const { posts, loading, errors, selectedSubreddit } = this.state;
         return(
             <div>
-                <Button primary onClick={this.onClick}>Fetch Data</Button>
+                <ChooseSubreddit value={selectedSubreddit}
+                chosenSubreddit={this.setSubreddit}>Fetch Data</ChooseSubreddit>
                 {Object.keys(errors).length > 0 && 
                                 <Message negative>
                                     <Message.Header>

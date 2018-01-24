@@ -7,7 +7,7 @@
     "nodemon": "^1.14.11"
   },
   "script": {
-    "start": "nodemon --exec node -- server.js"
+    "start": "nodemon --exec node server.js"
   },
   "devDependencies": {
     "nodemon": "^1.14.11"

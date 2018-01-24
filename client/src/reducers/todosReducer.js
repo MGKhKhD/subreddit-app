@@ -1,10 +1,11 @@
-import {UPDATE_SAVE_FLAG_OF_TODO, ADD_TODO} from '../types';
+import {UPDATE_SAVE_FLAG_OF_TODO, 
+    ADD_TODO, 
+    INITILAIZE_SETTING_LIST} from '../types';
 
 export  function todos(state=[], action){
     switch(action.type){
         case ADD_TODO:
             return [...state, {
-                id: action.id,
                 todo: action.payload,
                 saved: action.saved
             }];
@@ -12,6 +13,15 @@ export  function todos(state=[], action){
             return state.map(obj => obj.todo === action.payload?
             {...obj, saved: true} : obj);
         default: 
+            return state;
+    }
+}
+
+export function todosFromBD(state=[], action){
+    switch(action.type){
+        case INITILAIZE_SETTING_LIST:
+            return action.payload;
+        default:
             return state;
     }
 }
