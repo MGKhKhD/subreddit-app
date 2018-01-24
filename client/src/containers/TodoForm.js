@@ -57,12 +57,12 @@ class TodoForm extends Component{
                 {mounted && <MessageDisplay errors={errors} />}
                     <Form.Field >
                         <Form.Input type="text" 
-                        placeholder="Search for subreddit" 
+                        placeholder="Add New Subreddit" 
                         onChange={(e) => {
                             this.setState({text: e.target.value});
                         }}                       
-                        value={this.state.text} width={6}/>
-                        <Button type="submit" primary>Add Todo</Button>
+                        value={this.state.text} width={10}/>
+                        <Button type="submit" primary>Submit</Button>
                     </Form.Field>
                 </Form>
         )

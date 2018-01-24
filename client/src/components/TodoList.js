@@ -1,6 +1,6 @@
 import React from 'react';
 import { connect } from 'react-redux';
-import { todoClick } from '../actions/index.js';
+import { saveTodoDB } from '../actions/index.js';
 
 import { Table, Icon, Radio } from 'semantic-ui-react';
 
@@ -16,22 +16,25 @@ const TodoItem = ({todo, onClick}) => (
 
 const TodoList = (props) =>(
         <Table>
-            {props.todos.map(todo => (<TodoItem 
-            key={todo.id} 
-            todo={todo}
-            onClick={() => props.onTodoClick(todo)}/>))}
+            <Table.Body>
+                {props.todos.map(todo => (<TodoItem 
+                key={todo.id} 
+                todo={todo}
+                onClick={() => props.onTodoClick(todo)}/>))}
+            </Table.Body>
         </Table>
 );
 
 function mapStateToProps(state){
     return{
-        todos: state.todos
+        todos: state.todos,
+        updateSavedFlag: state.updateSavedFlag
     }
 }
 
 function mapDispatchToProps(dispatch){
     return {
-        onTodoClick: todo => dispatch(todoClick(todo))
+        onTodoClick: todo => dispatch(saveTodoDB(todo))
     };
 }
 

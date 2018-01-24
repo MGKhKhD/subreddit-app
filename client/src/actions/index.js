@@ -1,4 +1,5 @@
 import api from '../apiCalls';
+import {UPDATE_SAVE_FLAG_OF_TODO} from '../types';
 
 
 let idx = 0;
@@ -26,3 +27,18 @@ export function todoClick(todo){
         payload: todo
     };
 }
+
+export function updateSavedFlag(subreddit){
+    return {
+        type: UPDATE_SAVE_FLAG_OF_TODO,
+        payload: subreddit
+    };
+}
+
+export const saveTodoDB = (subreddit) => dispatch => 
+api.fetchFromDB.fetchData(subreddit)
+.then(response => {
+    if(response.message === 'success'){
+        dispatch(updateSavedFlag(subreddit))
+    }
+});
