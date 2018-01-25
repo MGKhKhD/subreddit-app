@@ -12,5 +12,9 @@ export default {
 
     fetchFromDB :{
         fetchData: subreddit =>  axios.get(`/user/subreddits`)
+    },
+
+    user: {
+        signup: credentials => axios.post('/user/auth', { credentials})
     }
 }

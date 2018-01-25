@@ -18,7 +18,8 @@ app.use(morgan('dev'));
 
 app.use('/user/subreddits',user);
 
-app.get('/', (req,res,next) =>{
+// fallback route
+app.get('/*', (req,res,next) =>{
     res.sendFile(path.join(__dirname,'index.html'))
 });
 

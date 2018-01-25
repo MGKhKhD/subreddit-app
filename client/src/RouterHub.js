@@ -5,34 +5,23 @@ import {Menu, Dropdown} from 'semantic-ui-react';
 import SettingPanel from './components/SettingPanel';
 import Dashboard from './containers/Dashboard';
 
-
-const HomePage = () => (
-    <div>
-        HomePage
-    </div>
-);
-
-
-const LoginPage = () => (
-    <div>
-        Login
-    </div>
-);
+import HomePage from './containers/HomePage';
+import SignupPageContainer from './containers/SignupPageContainer';
 
 
 
-const RouterHub =() =>(
+const RouterHub =({location}) =>(
     <div className="ui container">
-        <Menu>
-            <Menu.Item as={Link} to="/" position="right">HomePage</Menu.Item>
-            <Menu.Item as={Link} to="/dashboard" position="right">Dashboard</Menu.Item>
-            <Menu.Item as={Link} to="/login" position="right">Login</Menu.Item>           
-            <Menu.Item as={Link} to="/setting" position="right">Setting</Menu.Item>
+        <Menu color="blue">
+            <Menu.Item as={Link} to="/" >HomePage</Menu.Item>
+            <Menu.Item as={Link} to="/dashboard" >Dashboard</Menu.Item>
+            <Menu.Item as={Link} to="/signup" >Signup</Menu.Item>           
+            <Menu.Item as={Link} to="/setting" >Setting</Menu.Item>
         </Menu>
-        <Route exact path="/" component={HomePage}/>
-        <Route path="/dashboard" component={Dashboard}/>
-        <Route path="/login" component={LoginPage}/>       
-        <Route path="/setting" component={SettingPanel}/>
+        <Route location={location} exact path="/" component={HomePage}/>
+        <Route location={location} path="/dashboard" component={Dashboard}/>
+        <Route location={location}  path="/signup" component={SignupPageContainer}/>       
+        <Route location={location} path="/setting" component={SettingPanel}/>
     </div>
 );
 
