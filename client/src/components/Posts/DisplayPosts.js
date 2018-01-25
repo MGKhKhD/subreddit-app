@@ -1,21 +1,25 @@
 import React, { Component } from 'react';
 
-import { Table } from 'semantic-ui-react';
+import { Table, Icon, Modal } from 'semantic-ui-react';
+import CustomaryModal from '../../containers/CustomaryModal';
 
 class DisplayPosts extends Component{
     render(){
         const rows = [];
-        const { posts } = this.props;
+        const { posts, subreddit } = this.props;
+
         posts.forEach(post => rows.push(
-            <Table.Row key={post.id}>
+            <Table.Row key={post.id} >
               <Table.Cell>{post.title}</Table.Cell>
               <Table.Cell>{post.score}</Table.Cell>
               <Table.Cell> {post.num_comments}</Table.Cell>
               <Table.Cell> {post.author}</Table.Cell>
               <Table.Cell> {post.created}</Table.Cell>
-              <Table.Cell> {post.url? "included" : 'none'}</Table.Cell>
+              <Table.Cell textAlign="right">
+                <CustomaryModal post={post} subreddit={subreddit}/>
+              </Table.Cell>
             </Table.Row>));
-        return(
+            return(
             <Table striped>
                 <Table.Header>
                     <Table.Row>
@@ -24,7 +28,7 @@ class DisplayPosts extends Component{
                         <Table.HeaderCell width={2}>#Comments</Table.HeaderCell>
                         <Table.HeaderCell width={2}>Author</Table.HeaderCell>
                         <Table.HeaderCell width={2}>Created At</Table.HeaderCell>
-                        <Table.HeaderCell width={2}>Media</Table.HeaderCell>
+                        <Table.HeaderCell width={2}></Table.HeaderCell>
                     </Table.Row>
                 </Table.Header>
                 <Table.Body>

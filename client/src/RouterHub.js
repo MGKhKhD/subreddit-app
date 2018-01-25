@@ -1,6 +1,6 @@
 import React from 'react';
 import {Route, Link} from  'react-router-dom';
-import {Menu} from 'semantic-ui-react';
+import {Menu, Dropdown} from 'semantic-ui-react';
 
 import SettingPanel from './components/SettingPanel';
 import Dashboard from './containers/Dashboard';
@@ -20,17 +20,18 @@ const LoginPage = () => (
 );
 
 
+
 const RouterHub =() =>(
     <div className="ui container">
         <Menu>
-            <Link to="/" className="ui menue-item">HomePage</Link>
-            <Link to="/login" className="ui menue-item">Login</Link>
-            <Link to="/dashboard" className="ui menue-item">Dashboard</Link>
-            <Link to="/setting" className="ui menue-item">Setting</Link>
+            <Menu.Item as={Link} to="/" position="right">HomePage</Menu.Item>
+            <Menu.Item as={Link} to="/dashboard" position="right">Dashboard</Menu.Item>
+            <Menu.Item as={Link} to="/login" position="right">Login</Menu.Item>           
+            <Menu.Item as={Link} to="/setting" position="right">Setting</Menu.Item>
         </Menu>
         <Route exact path="/" component={HomePage}/>
-        <Route path="/login" component={LoginPage}/>
         <Route path="/dashboard" component={Dashboard}/>
+        <Route path="/login" component={LoginPage}/>       
         <Route path="/setting" component={SettingPanel}/>
     </div>
 );

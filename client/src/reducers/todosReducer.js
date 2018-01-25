@@ -1,6 +1,7 @@
 import {UPDATE_SAVE_FLAG_OF_TODO, 
     ADD_TODO, 
-    INITILAIZE_SETTING_LIST} from '../types';
+    INITILAIZE_SETTING_LIST, 
+    SHOW_ACTIVE_SUBREDDIT_MODAL} from '../types';
 
 export  function todos(state=[], action){
     switch(action.type){
@@ -34,3 +35,4 @@ export function todoClick(state={}, action){
             return state;
     }
 }
+

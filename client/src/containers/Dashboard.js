@@ -7,6 +7,7 @@ import { fetchSubreddit } from '../actions/fetching_subreddit';
 import DisplayPosts from '../components/posts/DisplayPosts';
 import ChooseSubreddit from './ChooseSubreddit';
 
+
 class Dashboard extends Component{
     state = {posts: [], 
         loading: false, 
@@ -25,7 +26,7 @@ class Dashboard extends Component{
     }
 
     render(){
-        const { posts, loading, errors, selectedSubreddit } = this.state;
+        const { posts, loading, errors, selectedSubreddit, showingModal } = this.state;
         return(
             <div>
                 <ChooseSubreddit value={selectedSubreddit}
@@ -36,7 +37,8 @@ class Dashboard extends Component{
                                         No Data To Fetch!
                                     </Message.Header>
                                 </Message>}
-                {(posts.length > 0) && <DisplayPosts posts={posts}/>}
+                {(posts.length > 0) && <DisplayPosts
+                posts={posts} subreddit={selectedSubreddit}/>}   
             </div>
         );
     }
