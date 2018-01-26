@@ -29,8 +29,10 @@ class SignupPageComponent extends Component{
     const errors = this.validateForm(this.state.credentials);
     this.setState({errors});
     if(_.isEmpty(errors)){
-      this.setState({loading: false});
-      this.props.submit(this.state.credentials);
+      this.setState({loading: true});
+      this.props.submit(this.state.credentials).catch(err =>{
+        this.setState({loading: false, errors: err.response.data.errors});
+      });
     }
   }
 
@@ -72,6 +74,10 @@ class SignupPageComponent extends Component{
             verticalAlign='middle'
             >
             <Grid.Column style={{ maxWidth: 450 }}>
+              {errors.email && <Message negative>
+                <Message.Header>Something Wrong</Message.Header>
+                <p>{errors.email}</p>
+              </Message>}
                 <Form size='large' onSubmit={this.handleSubmit} loading={loading}>
                   <Segment >
                     <Form.Input error={!!errors.email}

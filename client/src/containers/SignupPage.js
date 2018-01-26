@@ -3,10 +3,11 @@ import SignupPageComponent from '../components/SignupPageComponent';
 import { connect } from 'react-redux';
 import { signupUser } from '../actions/authentication';
 
-class SignupPageContainer extends Component{
+class SignupPage extends Component{
 
-    handleSignupForm (credentials){
-        return this.props.signup(credentials);
+    handleSignupForm(credentials){
+        return this.props.signup(credentials)
+        .then(user => this.props.history.push('/dashboard'));
     }        
 
     render(){
@@ -24,8 +25,8 @@ function mapDispatchToProps(dispatch){
 
 function mapStateToProps(state){
     return{
-        responseToSignUpFromServer: state.signupEmailPassword
+        user: state.signupEmailPassword
     };
 }
 
-export default connect(null,mapDispatchToProps)(SignupPageContainer);
+export default connect(null,mapDispatchToProps)(SignupPage);

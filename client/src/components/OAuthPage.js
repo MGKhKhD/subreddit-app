@@ -1,23 +1,29 @@
 import React, { Component } from 'react';
 
-import LoginForm from '../components/LoginForm';
-
-import { Header, Segment, Button } from 'semantic-ui-react'
+import { Button, Icon } from 'semantic-ui-react'
 
 
 
 class OAuthPage extends Component{
     render(){
         return(
-            <Segment >
-                <Header as='h4' color='blue' textAlign='center'>
-                Log-in with
-                </Header>
-                <Button color='facebook' icon='facebook' />
-                <Button color='twitter' icon='twitter' />
-                <Button color='linkedin' icon='linkedin' />
-                <Button color='google plus' icon='google plus' />
-            </Segment>
+            <div className="ui container" >
+                <Button color='facebook'>
+                    <Icon name='facebook' /> Facebook
+                  </Button>
+                  <Button color='twitter'>
+                    <Icon name='twitter' /> Twitter
+                  </Button>
+                  <Button color='google plus'>
+                    <Icon name='google plus' /> Google Plus
+                  </Button>
+                  <Button color='linkedin'>
+                    <Icon name='linkedin' /> LinkedIn
+                  </Button>
+                  <Button color='instagram'>
+                    <Icon name='instagram' /> Instagram
+                  </Button>
+            </div>
         );
     }
 }

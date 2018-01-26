@@ -1,46 +1,30 @@
 import React from 'react';
-import {  withRouter } from  'react-router-dom';
+import {  Link } from  'react-router-dom';
+import { connect } from 'react-redux';
+import LogoutButton from './LogoutButton';
 
-import LoginForm from '../components/LoginForm';
-import OAuthForm from '../components/OAuthPage';
-
-import { Button, Form, Grid, Header, Icon, Message, Segment } from 'semantic-ui-react'
+import { Grid, Button, Divider, Segment } from 'semantic-ui-react';
+import OAuthPage from '../components/OAuthPage';
 
 
-const SignupButton = withRouter(({history}) => (
-    <Button secondary 
-        onClick={()=>history.push('/singup')}>
-        Sign Up
-    </Button>
-));
-
-const HomePage = () => (
-    <div className='login-form'>
-    <style>{`
-      body > div,
-      body > div > div,
-      body > div > div > div.login-form {
-        height: 100%;
-      }
-    `}</style>
-    <Grid
-      textAlign='center'
-      style={{ height: '100%' }}
-      verticalAlign='middle'
-    >
-      <Grid.Column style={{ maxWidth: 450 }}>
-        <Header as='h2' color='blue' textAlign='center'>
-          <Icon name="sign in" />
-          {' '}Log-in to your account
-        </Header>
-            <LoginForm />
-        <Message>
-          New user? <SignupButton />
-        </Message>
-            <OAuthForm />
-      </Grid.Column>
-    </Grid>
+const HomePage = ({ isAuthenticated, history }) => (
+    <div className="ui container">
+      {!isAuthenticated? (<Segment padded>
+                            <Button primary fluid as={Link} to='/login'>Login</Button>
+                            <Divider horizontal>Or</Divider>
+                            <Button secondary fluid as={Link} to='/signup'>Sign Up Now</Button>
+                            <Divider horizontal>Or Signup with</Divider>
+                            <OAuthPage />
+                          </Segment>) 
+                          :
+                        (<LogoutButton history={history}/>)}
   </div>
 );
 
-export default HomePage;
+function mapStateToProps(state){
+  return{
+    isAuthenticated: !! state.loginEmailPassword.token
+  }
+}
+
+export default connect(mapStateToProps)(HomePage);
