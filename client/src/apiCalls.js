@@ -7,14 +7,14 @@ export default {
     },
 
     postToDB :{
-        postData: subreddit =>  axios.post(`/user/subreddits`, subreddit)
+        postData: subreddit =>  axios.post(`/api/subreddits`, subreddit)
     },
 
     fetchFromDB :{
-        fetchData: subreddit =>  axios.get(`/user/subreddits`)
+        fetchData: subreddit =>  axios.get(`/api/subreddits`)
     },
 
     user: {
-        signup: credentials => axios.post('/user/auth', { credentials})
+        signup: credentials => axios.post('/api/auth', { credentials})
     }
 }

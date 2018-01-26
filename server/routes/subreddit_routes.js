@@ -1,12 +1,11 @@
 const express = require('express');
 const mongoose = require('mongoose');
 const router = express.Router();
-const User = require('../models/user_model');
+const Subreddit = require('../models/subreddit_model');
 
 router.post('/', (req,res,next) =>{
     const data = req.body;
-    console.log(data);
-    const savedSubreddit = new User({
+    const savedSubreddit = new Subreddit({
         _id: new  mongoose.Types.ObjectId(),
         subreddit: data.todo
     });
@@ -26,7 +25,7 @@ router.post('/', (req,res,next) =>{
 });
 
 router.get('/', (req,res) => {
-    User.find()
+    Subreddit.find()
     .exec()
     .then(documents => res.status(201).json({documents
     }))

@@ -8,5 +8,5 @@ const schema = new Schema({
     subreddit: {type: String}
 },{timestamp: true});
 
-module.exports = mongoose.model('User', schema);
+module.exports = mongoose.model('Subreddit', schema);
 

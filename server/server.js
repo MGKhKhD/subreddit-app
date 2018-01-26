@@ -9,14 +9,16 @@ const Keys = require('./configs/configs');
 const app = express();
 app.use(bodyPareser.json());
 
-const user = require('./routes/user_routes');
+const subreddit = require('./routes/subreddit_routes');
+const auth = require('./routes/auth_routes');
 
 mongoose.connect(Keys.mLabURI);
 mongoose.Promise = global.Promise;
 
 app.use(morgan('dev'));
 
-app.use('/user/subreddits',user);
+app.use('/api/subreddits',subreddit);
+app.use('/api/auth', auth);
 
 // fallback route
 app.get('/*', (req,res,next) =>{
