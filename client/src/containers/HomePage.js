@@ -8,7 +8,7 @@ import OAuthPage from '../components/OAuthPage';
 
 
 const HomePage = ({ isAuthenticated, history }) => (
-    <div className="ui container">
+    <div className="ui container ">
       {!isAuthenticated? (<Segment padded>
                             <Button primary fluid as={Link} to='/login'>Login</Button>
                             <Divider horizontal>Or</Divider>
@@ -17,7 +17,7 @@ const HomePage = ({ isAuthenticated, history }) => (
                             <OAuthPage />
                           </Segment>) 
                           :
-                        (<LogoutButton history={history}/>)}
+                        (<Segment padded><LogoutButton history={history}/></Segment>)}
   </div>
 );
 

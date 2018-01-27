@@ -7,7 +7,7 @@ class SignupPage extends Component{
 
     handleSignupForm(credentials){
         return this.props.signup(credentials)
-        .then(user => this.props.history.push('/dashboard'));
+        .then(() => this.props.history.push('/dashboard'));
     }        
 
     render(){

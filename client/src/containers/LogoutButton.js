@@ -11,7 +11,7 @@ const LogoutButton = ({ history, logout }) => (
             logout();
             history.push('/homepage');
         }}>
-        Logout
+        Log out
     </Button>
   );
 

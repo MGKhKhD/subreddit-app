@@ -3,7 +3,7 @@ import {Route} from  'react-router-dom';
 import { connect } from 'react-redux';
 
 import SettingPanel from './components/SettingPanel';
-import Dashboard from './containers/Dashboard';
+import DashboardRoutes from './containers/DashboardRoutes';
 
 import HomePage from './containers/HomePage';
 import SignupPage from './containers/SignupPage';
@@ -16,12 +16,10 @@ import AuthRoute from './containers/AuthRote';
 
 const RouterHub =({ location, isAuthenticated}) =>(
     <div className="ui container">
-        {isAuthenticated && <CustomeryNavbar />}
         <Route location={location} exact path="/" component={HomePage}/>
         <UnAuthRoute location={location} path="/login" component={LoginPage}/>  
         <UnAuthRoute location={location} path="/signup" component={SignupPage}/>  
-        <AuthRoute location={location} path="/dashboard" component={Dashboard}/>             
-        <AuthRoute location={location} path="/setting" component={SettingPanel}/>
+        <AuthRoute location={location} path="/dashboard" component={DashboardRoutes}/>           
     </div>
 );
 

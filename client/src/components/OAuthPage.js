@@ -8,20 +8,14 @@ class OAuthPage extends Component{
     render(){
         return(
             <div className="ui container" >
-                <Button color='facebook'>
+                <Button color='facebook' name="facebook">
                     <Icon name='facebook' /> Facebook
                   </Button>
-                  <Button color='twitter'>
+                  <Button color='twitter' name="twitter">
                     <Icon name='twitter' /> Twitter
                   </Button>
-                  <Button color='google plus'>
+                  <Button color='google plus' name="google">
                     <Icon name='google plus' /> Google Plus
-                  </Button>
-                  <Button color='linkedin'>
-                    <Icon name='linkedin' /> LinkedIn
-                  </Button>
-                  <Button color='instagram'>
-                    <Icon name='instagram' /> Instagram
                   </Button>
             </div>
         );
