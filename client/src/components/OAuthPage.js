@@ -9,13 +9,13 @@ class OAuthPage extends Component{
         return(
             <div className="ui container" >
                 <Button color='facebook' name="facebook">
-                    <Icon name='facebook' /> Facebook
+                    <Icon name='facebook' /> Log in with Facebook
                   </Button>
                   <Button color='twitter' name="twitter">
-                    <Icon name='twitter' /> Twitter
+                    <Icon name='twitter' /> Log in with  Twitter
                   </Button>
                   <Button color='google plus' name="google">
-                    <Icon name='google plus' /> Google Plus
+                    <Icon name='google plus' /> Log in with  Google 
                   </Button>
             </div>
         );

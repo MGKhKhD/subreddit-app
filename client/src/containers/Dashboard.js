@@ -20,27 +20,36 @@ class Dashboard extends Component{
         .then(response => {
             this.setState({posts: response.payload, loading: false});
         }).catch(err => {
-            console.log(err);
             this.setState({errors: err});
         });
     }
 
     render(){
         const { posts, loading, errors, selectedSubreddit, showingModal } = this.state;
-        return(
-            <div>
-                <ChooseSubreddit value={selectedSubreddit}
-                chosenSubreddit={this.setSubreddit}>Fetch Data</ChooseSubreddit>
-                {Object.keys(errors).length > 0 && 
-                                <Message negative>
-                                    <Message.Header>
-                                        No Data To Fetch!
-                                    </Message.Header>
-                                </Message>}
-                {(posts.length > 0) && <DisplayPosts
-                posts={posts} subreddit={selectedSubreddit}/>}   
-            </div>
-        );
+        if(this.props.isConfirmed){
+            return(
+                <div>                
+                    <ChooseSubreddit value={selectedSubreddit}
+                    chosenSubreddit={this.setSubreddit}>Fetch Data</ChooseSubreddit>
+                    {Object.keys(errors).length > 0 && 
+                                    <Message negative>
+                                        <Message.Header>
+                                            No Data To Fetch!
+                                        </Message.Header>
+                                    </Message>}
+                    {(posts.length > 0) && <DisplayPosts
+                    posts={posts} subreddit={selectedSubreddit}/>}   
+                </div>
+            );
+        }else{
+            return(
+                <Message negative>
+                    <Message.Header>
+                        Please confirm your email.
+                    </Message.Header>
+                </Message>
+            );
+        }
     }
 } 
 
@@ -50,4 +59,10 @@ function mapDispatchToProps(dispatch){
     };
 }
 
-export default connect(null, mapDispatchToProps)(Dashboard);
+function mapStateToProps(state){
+    return {
+        isConfirmed: state.authState.confirmed
+    }
+}
+
+export default connect(mapStateToProps, mapDispatchToProps)(Dashboard);

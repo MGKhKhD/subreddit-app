@@ -3,9 +3,11 @@ const path = require('path');
 const bodyPareser = require('body-parser');
 const mongoose = require('mongoose');
 const  morgan =require('morgan');
+const dotenv = require('dotenv');
 
 const Keys = require('./configs/configs');
 
+dotenv.config();
 const app = express();
 app.use(bodyPareser.json());
 
@@ -13,7 +15,7 @@ const subreddit = require('./routes/subreddit_routes');
 const auth = require('./routes/auth_routes');
 const users = require('./routes/users_routes');
 
-mongoose.connect(Keys.mLabURI);
+mongoose.connect(process.env.mLabURI);
 mongoose.Promise = global.Promise;
 
 app.use(morgan('dev'));

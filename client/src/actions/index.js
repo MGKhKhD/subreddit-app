@@ -3,7 +3,6 @@ import {UPDATE_SAVE_FLAG_OF_TODO,
     INITILAIZE_SETTING_LIST, ADD_TODO,
     SHOW_ACTIVE_SUBREDDIT_MODAL} from '../types';
 
-
 export function addTodo(text) {
     return {
         type: ADD_TODO,

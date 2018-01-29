@@ -9,7 +9,7 @@ const UnAuthRoute = ({  isAuthenticated, component: Component, ...rest}) => (
 
 function mapStateToProps(state){
     return{
-        isAuthenticated: !!state.loginEmailPassword.token
+        isAuthenticated: !!state.authState.token
     }
 }
 

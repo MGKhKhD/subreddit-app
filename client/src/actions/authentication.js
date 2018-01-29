@@ -40,3 +40,9 @@ export const logout = () => dispatch =>{
     localStorage.removeItem('subredditToken');
     dispatch(logoutAction());
 }
+
+export const confirmEmail = token => dispatch =>
+api.user.confirmation(token).then(user => {
+    localStorage.subredditToken = user.token;
+    dispatch(loginAction(user));
+});

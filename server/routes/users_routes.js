@@ -3,6 +3,7 @@ const router = express.Router();
 const User = require('../models/User_model');
 const mongoose = require('mongoose');
 const parsingErrors = require('../utils/parsingErrors');
+const sendConfirmationEmail = require('../utils/mailer');
 
 router.post('/', (req,res)=>{
     const { email, password, dPassword } = req.body.user;
@@ -17,11 +18,15 @@ router.post('/', (req,res)=>{
     user.setPassword(password)
     user.setConfimationToken();
     user.save()
-    .then(record => res.status(200).json({
-        user: record.toAuthJWT()
-    })).catch(err => res.status(400).json({
+    .then(record => {
+        sendConfirmationEmail(record);
+        res.status(200).json({
+            user: record.toAuthJWT()
+        });
+    }).catch(err => res.status(400).json({
         errors: parsingErrors(err.errors)
     }));
 });
 
 module.exports = router;
+

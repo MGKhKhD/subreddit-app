@@ -23,7 +23,7 @@ const HomePage = ({ isAuthenticated, history }) => (
 
 function mapStateToProps(state){
   return{
-    isAuthenticated: !! state.loginEmailPassword.token
+    isAuthenticated: !!state.authState.token
   }
 }
 

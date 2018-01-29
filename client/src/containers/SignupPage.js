@@ -23,10 +23,5 @@ function mapDispatchToProps(dispatch){
     };
 }
 
-function mapStateToProps(state){
-    return{
-        user: state.signupEmailPassword
-    };
-}
 
 export default connect(null,mapDispatchToProps)(SignupPage);
