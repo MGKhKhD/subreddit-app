@@ -2,11 +2,20 @@ import React,  { Component } from 'react';
 import { connect } from 'react-redux';
 import { initializeSettingList } from '../actions/index';
 
-import { Dropdown } from 'semantic-ui-react';
+import { Grid } from 'semantic-ui-react';
+
+const colors = [
+    'red', 'orange', 'yellow', 'olive', 'green', 'teal', 'blue',
+    'violet', 'purple', 'pink', 'brown', 'grey', 'black',
+  ];
+
+function getRandomInt(max) {
+return Math.floor(Math.random() * Math.floor(max));
+}
 
 
 class ChooseSubreddit extends Component{
-    handleChange(e){
+    handleClick(e){
         this.props.chosenSubreddit(e.target.value);
     }
 
@@ -16,13 +25,18 @@ class ChooseSubreddit extends Component{
 
     render(){
         return(
-            <select onChange={this.handleChange.bind(this)} value={this.props.value}>
+            <Grid stackable columns={1} centered padded>
             {this.props.todos.map( todo => {
+                const indColor = getRandomInt(colors.length - 1);
                 if(todo.subreddit){
-                    return ( <option key={todo._id} value={todo.subreddit}>{todo.subreddit}</option>);
+                    return ( <Grid.Column key={todo._id}  color={colors[indColor]} 
+                        style={{ margin: '0.5em', height: 50 }}
+                        onClick={()=>this.props.chosenSubreddit(todo.subreddit, colors[indColor])} 
+                        value={this.props.value}>{todo.subreddit}
+                        </Grid.Column>);
                 }
             })}
-            </select>
+            </Grid>
         );
     }
 }

@@ -4,10 +4,10 @@ import { Modal, Icon, Button, Header, Image } from 'semantic-ui-react';
 
 class CustomaryModal extends Component{
     render(){
-        const {post, subreddit}=this.props;
+        const {post, subreddit, color }=this.props;
         return(
             <Modal trigger={<Icon name="window maximize"/>}>
-                <Modal.Header>{post.title}</Modal.Header>
+                <Modal.Header style={{color: color}}>{post.title}</Modal.Header>
                 <Modal.Content scrolling>
                 <Modal.Description> 
                 <p>{post.selftext}</p>

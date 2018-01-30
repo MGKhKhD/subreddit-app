@@ -50,7 +50,7 @@ export function settingListInitialized(subreddits){
 
 export const initializeSettingList = () => dispatch => 
 api.fetchFromDB.fetchData()
-.then(response => { console.log(response);
+.then(response => {
     if(response.data.documents){
         dispatch(settingListInitialized(response.data.documents))
     }

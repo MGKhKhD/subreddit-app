@@ -6,7 +6,7 @@ import CustomaryModal from '../../containers/CustomaryModal';
 class DisplayPosts extends Component{
     render(){
         const rows = [];
-        const { posts, subreddit } = this.props;
+        const { posts, subreddit, color } = this.props;
 
         posts.forEach(post => rows.push(
             <Table.Row key={post.id} >
@@ -16,12 +16,12 @@ class DisplayPosts extends Component{
               <Table.Cell> {post.author}</Table.Cell>
               <Table.Cell> {post.created}</Table.Cell>
               <Table.Cell textAlign="right">
-                <CustomaryModal post={post} subreddit={subreddit}/>
+                <CustomaryModal post={post} subreddit={subreddit} color={color}/>
               </Table.Cell>
             </Table.Row>));
             return(
-            <Table striped>
-                <Table.Header>
+            <Table celled selectable color={color}>
+                <Table.Header >
                     <Table.Row>
                         <Table.HeaderCell width={5}>Title</Table.HeaderCell>
                         <Table.HeaderCell width={2}>Score</Table.HeaderCell>

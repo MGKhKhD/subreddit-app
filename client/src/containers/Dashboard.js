@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { Button, Message} from 'semantic-ui-react';
+import { Button, Message, Grid} from 'semantic-ui-react';
 import { connect } from 'react-redux';
 import { fetchSubreddit } from '../actions/fetching_subreddit';
 
@@ -12,10 +12,11 @@ class Dashboard extends Component{
     state = {posts: [], 
         loading: false, 
         errors: {},
-    selectedSubreddit: ''};
+    selectedSubreddit: '',
+color: ''};
 
-    setSubreddit = (subreddit) => {
-        this.setState({loading: true, selectedSubreddit: subreddit});
+    setSubreddit = (subreddit, color) => {
+        this.setState({loading: true, selectedSubreddit: subreddit, color: color});
         this.props.fetchSubreddit(subreddit)
         .then(response => {
             this.setState({posts: response.payload, loading: false});
@@ -25,20 +26,26 @@ class Dashboard extends Component{
     }
 
     render(){
-        const { posts, loading, errors, selectedSubreddit, showingModal } = this.state;
+        const { posts, loading, errors, selectedSubreddit, showingModal, color } = this.state;
         if(this.props.isConfirmed){
             return(
-                <div>                
-                    <ChooseSubreddit value={selectedSubreddit}
-                    chosenSubreddit={this.setSubreddit}>Fetch Data</ChooseSubreddit>
-                    {Object.keys(errors).length > 0 && 
-                                    <Message negative>
-                                        <Message.Header>
-                                            No Data To Fetch!
-                                        </Message.Header>
-                                    </Message>}
-                    {(posts.length > 0) && <DisplayPosts
-                    posts={posts} subreddit={selectedSubreddit}/>}   
+                <div className='ui container'> 
+                    <Grid columns={2} stackable> 
+                        <Grid.Column width={2}>              
+                            <ChooseSubreddit value={selectedSubreddit}
+                            chosenSubreddit={this.setSubreddit}>Fetch Data</ChooseSubreddit>
+                            {Object.keys(errors).length > 0 && 
+                                            <Message negative>
+                                                <Message.Header>
+                                                    No Data To Fetch!
+                                                </Message.Header>
+                                            </Message>}
+                        </Grid.Column>
+                        <Grid.Column width={14}>
+                        {(posts.length > 0) && <DisplayPosts color={color}
+                        posts={posts} subreddit={selectedSubreddit}/>} 
+                        </Grid.Column>  
+                    </Grid>
                 </div>
             );
         }else{

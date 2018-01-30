@@ -19,18 +19,18 @@ const TodoItem = ({todo, onClick}) => (
 class TenativeTodoList extends Component{
     constructor(props){
         super(props);
-        this.state={listInitialized: false, loading: false};
+        this.state={ loading: false};
 
         this.handleClick = this.handleClick.bind(this);
     }
 
     handleClick(){
-            this.setState({listInitialized: true, loading: true});
+            this.setState({loading: true});
             this.props.initializeList();
     }
 
     render(){
-        const {listInitialized, loading} = this.state;
+        const { loading } = this.state;
         return(
             <div>
                 <Table>
@@ -41,12 +41,6 @@ class TenativeTodoList extends Component{
                         onClick={() => this.props.onTodoClick(todo)}/>))}
                     </Table.Body>
                 </Table>
-            {!listInitialized? 
-            <Button fluid  loading={loading}
-            onClick={this.handleClick}>
-            Active Subreddits</Button> :
-            <TodosFromServer todos={this.props.todosFromBD}/>
-            }
         </div>
         );
     }
