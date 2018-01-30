@@ -4,30 +4,32 @@ import { checkIfSubredditExist, initializeSettingList, addTodo } from '../action
 
 import { Button, Form, Message } from 'semantic-ui-react';
 
-const MessageDisplay = (props) => {
-    if(Object.keys(props.errors).length > 0){ 
+const MessageDisplay = ({ errors }) => {   
+    if(errors.emptyInput){
         return (<Message negative>
             <Message.Header>
-                Invalid Subredit!
+            {errors.emptyInput}
             </Message.Header>
         </Message>);
-    }else if(Object.keys(props.errors).length === 0){
-        return (<Message positive>
-                <Message.Header>
-                    Subreddit Added.
-                </Message.Header>
+    }else if(errors.dublicated){
+        return (<Message negative>
+            <Message.Header>
+            {errors.dublicated}
+            </Message.Header>
+        </Message>);
+    }else if(errors.nonExisting){
+        return (<Message negative>
+            <Message.Header>
+            {errors.nonExisting}
+            </Message.Header>
         </Message>);
     }
-    
 }
 
 class TodoForm extends Component{
     constructor(props){
         super(props);
-        this.state={text: '', 
-                    loading: false,
-                    mounted: false,
-                    dublicated: false,
+        this.state={text: '', loading: false,
                     errors:{}
                 };
 
@@ -36,24 +38,19 @@ class TodoForm extends Component{
 
     submit(e){
         e.preventDefault();
-        if(!this.state.text.trim()){
-            return false;
-        }
-        let dublicated = false; 
-        this.props.todos.map(todo => {
-            if(todo.subreddit === this.state.text.trim()){
-                dublicated = true;
-                this.setState({dublicated, mounted: true});
-                return false;
-            }
-        });       
-        this.props.checkIfSubredditExist(this.state.text)
-        .then(res => this.setState({mounted: true}))
-        .catch(err => {
-            this.setState({mounted: true})
-            this.setState({errors: err});
-        });        
-        this.setState({text: '', errors: {}, loading: false});
+        const text = this.state.text.trim();
+        this.setState({loading: true});
+        const errors = this.validateInput(text);
+        this.setState({errors});
+        if (Object.keys(errors).length === 0){
+            this.props.checkIfSubredditExist(text)
+            .catch(err => {
+                if(err){
+                   this.setState({...this.state, errors:{...this.state.errors, nonExisting: 'The subreddit seems doe not exist.'}})
+                }
+            }); 
+        }                    
+        this.setState({text: '', loading: false});
     }
 
     componentWillMount(){
@@ -61,13 +58,28 @@ class TodoForm extends Component{
     }
 
 
+    validateInput(text){
+        let errors = {};
+        if(!text){
+            errors.emptyInput = 'Invalid input';
+        }
+        if(!errors.emptyInput){ 
+            this.props.todos.map(todo => {
+                if(todo.subreddit === text){
+                    errors.dublicated = 'Subreddit is already saved in your list.';
+                }
+            });
+        }       
+        return errors;
+    }
+
+
 
     render(){
-        const { loading, errors, mounted, dublicated } = this.state;
+        const {  errors, loading } = this.state;
         return(
                 <Form onSubmit={this.submit} loading={loading}>
-                    {mounted && !dublicated && <MessageDisplay errors={errors} />}
-                    {mounted && dublicated && <MessageDisplay errors="Subreddit already saved" />}
+                    {Object.keys(errors).length > 0 && <MessageDisplay errors={errors} />}
                     <Form.Field >
                         <Form.Input type="text" 
                         placeholder="Add New Subreddit" 
@@ -91,8 +103,7 @@ function mapStateToProps(state){
 function mapDispatchToProps(dispatch){
     return {
         checkIfSubredditExist: subject => dispatch(checkIfSubredditExist(subject)),
-        initializeList: () => dispatch(initializeSettingList()),
-        addSubreddit: text => dispatch(addTodo(text))
+        initializeList: () => dispatch(initializeSettingList())
     }
 }
 

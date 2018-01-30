@@ -1,7 +1,8 @@
 import {UPDATE_SAVE_FLAG_OF_TODO, 
     ADD_TODO, 
     INITILAIZE_SETTING_LIST, 
-    SHOW_ACTIVE_SUBREDDIT_MODAL} from '../types';
+    SHOW_ACTIVE_SUBREDDIT_MODAL, 
+    DELETE_TODO_FROM_LIST} from '../types';
 
 export  function todos(state=[], action){
     switch(action.type){
@@ -13,6 +14,8 @@ export  function todos(state=[], action){
         case UPDATE_SAVE_FLAG_OF_TODO:
             return state.map(obj => obj.todo === action.payload?
             {...obj, saved: true} : obj);
+        case DELETE_TODO_FROM_LIST:
+            return state.filter(obj => obj.todo !== action.payload);    
         default: 
             return state;
     }

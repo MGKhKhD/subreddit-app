@@ -8,11 +8,11 @@ import { Grid } from 'semantic-ui-react';
 
 const SettingPanel = () =>(
         <Grid>
-            <Grid.Column floated='left' width={5}>
+            <Grid.Column floated='left' width={10}>
                 <TodoForm />
                 <TenativeTodoList />
             </Grid.Column>
-            <Grid.Column floated='right' width={5}>
+            <Grid.Column floated='right' width={3}>
                 <SavedSubredditList />
             </Grid.Column>
         </Grid>

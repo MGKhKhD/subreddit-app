@@ -1,46 +1,24 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
-import { saveTodoDB, initializeSettingList } from '../actions/index.js';
+import { saveTodoDB, initializeSettingList, deleteTodoFromList } from '../actions/index.js';
 import TodosFromServer from '../components/setting_pages/TodosFromServer';
+import SubredditCardItem from './SubredditCardItem';
 
-import { Table, Icon, Radio, Button } from 'semantic-ui-react';
+import { Card, Icon, Button } from 'semantic-ui-react';
 
-
-const TodoItem = ({todo, onClick}) => (
-    <Table.Row onClick={onClick} style={{color: todo.saved? "green": "red"}}>
-        <Table.Cell>{todo.todo}</Table.Cell>
-        <Table.Cell textAlign="right">{!todo.saved?  
-        <Button icon='save' /> 
-        : 
-        <Icon color='green' name='checkmark' size='large' />}</Table.Cell>         
-    </Table.Row>
-);
 
 class TenativeTodoList extends Component{
-    constructor(props){
-        super(props);
-        this.state={ loading: false};
-
-        this.handleClick = this.handleClick.bind(this);
-    }
-
-    handleClick(){
-            this.setState({loading: true});
-            this.props.initializeList();
-    }
 
     render(){
-        const { loading } = this.state;
         return(
             <div>
-                <Table>
-                    <Table.Body>
-                        {this.props.todos.map(todo => (<TodoItem 
-                        key={todo.id} 
+                <Card.Group >
+                        {this.props.todos.map(todo => (<SubredditCardItem 
+                        key={todo.todo} 
                         todo={todo}
-                        onClick={() => this.props.onTodoClick(todo)}/>))}
-                    </Table.Body>
-                </Table>
+                        onSave={() => this.props.onSaveClick(todo)}
+                        onDismiss={() => this.props.onDismissClick(todo.todo)}/>))}
+                </Card.Group>
         </div>
         );
     }
@@ -48,15 +26,14 @@ class TenativeTodoList extends Component{
 
 function mapStateToProps(state){
     return{
-        todos: state.todos,
-        todosFromBD: state.todosFromBD
-    }
+        todos: state.todos
+    };
 }
 
 function mapDispatchToProps(dispatch){
     return {
-        onTodoClick: todo => dispatch(saveTodoDB(todo)),
-        initializeList: () => dispatch(initializeSettingList())
+        onSaveClick: todo => dispatch(saveTodoDB(todo)),
+        onDismissClick: text => dispatch(deleteTodoFromList(text))
     };
 }
 

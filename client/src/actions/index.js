@@ -1,7 +1,15 @@
 import api from '../apiCalls';
 import {UPDATE_SAVE_FLAG_OF_TODO, 
     INITILAIZE_SETTING_LIST, ADD_TODO,
-    SHOW_ACTIVE_SUBREDDIT_MODAL} from '../types';
+    SHOW_ACTIVE_SUBREDDIT_MODAL,
+    DELETE_TODO_FROM_LIST } from '../types';
+
+export function deleteTodoFromList(text) {
+    return {
+        type: DELETE_TODO_FROM_LIST,
+        payload: text
+    };
+}    
 
 export function addTodo(text) {
     return {

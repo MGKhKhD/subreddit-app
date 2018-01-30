@@ -1,6 +1,7 @@
 import React,  { Component } from 'react';
 import { connect } from 'react-redux';
 import { initializeSettingList } from '../actions/index';
+import getRandomInt from '../utils/randomIntegerGenerator';
 
 import { Grid } from 'semantic-ui-react';
 
@@ -9,9 +10,7 @@ const colors = [
     'violet', 'purple', 'pink', 'brown', 'grey', 'black',
   ];
 
-function getRandomInt(max) {
-return Math.floor(Math.random() * Math.floor(max));
-}
+
 
 
 class ChooseSubreddit extends Component{
