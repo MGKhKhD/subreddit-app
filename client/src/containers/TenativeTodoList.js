@@ -13,7 +13,7 @@ class TenativeTodoList extends Component{
         return(
             <div>
                 <Card.Group >
-                        {this.props.todos.map(todo => (<SubredditCardItem 
+                        {this.props.todos.map(todo => (!todo.saved && <SubredditCardItem 
                         key={todo.todo} 
                         todo={todo}
                         onSave={() => this.props.onSaveClick(todo)}

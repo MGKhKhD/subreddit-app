@@ -13,10 +13,10 @@ class LoginPageContainer extends Component{
 
     render(){
         return(
-            <div>
+            <React.Fragment>
                 <LoginFormComponent submit={this.submit.bind(this)}/>               
                 <Link to='/forget_password'>Forget Password?</Link>
-            </div>
+            </React.Fragment>
         );
     }
 }

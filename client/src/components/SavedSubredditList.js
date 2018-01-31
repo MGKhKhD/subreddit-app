@@ -13,11 +13,16 @@ class SavedSubredditList extends Component{
         this.props.initializeSettingList();
     }
 
+    componentWillReceiveProps(nextProps){
+        nextProps.initializeSettingList();
+    }
+
 
     render(){
+        const { todos } = this.props;
         return(
             <Grid stackable columns={1} centered padded>
-            {this.props.todos.map( todo => {
+            {todos.map( todo => {
                 if(todo.subreddit){
                     return ( <Grid.Column key={todo._id}  
                         style={{ margin: '0.5em', height: 30 }} >

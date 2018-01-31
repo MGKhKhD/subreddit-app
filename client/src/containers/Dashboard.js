@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { Button, Message, Grid} from 'semantic-ui-react';
+import { Button, Message, Grid, Segment, Icon } from 'semantic-ui-react';
 import { connect } from 'react-redux';
 import { fetchSubreddit } from '../actions/fetching_subreddit';
 
@@ -7,6 +7,14 @@ import { fetchSubreddit } from '../actions/fetching_subreddit';
 import DisplayPosts from '../components/posts/DisplayPosts';
 import ChooseSubreddit from './ChooseSubreddit';
 
+const DisplayOptions = () => (
+                            <Grid columns={4} >
+                            <Grid.Column><Icon name='block layout' size='large'/></Grid.Column>
+                            <Grid.Column><Icon name='grid layout' size='large'/></Grid.Column>
+                            <Grid.Column><Icon name='list layout' size='large'/></Grid.Column>
+                            <Grid.Column><Icon name='refresh' size='large'/></Grid.Column>
+                            </Grid>)
+ 
 
 class Dashboard extends Component{
     state = {posts: [], 
@@ -42,8 +50,19 @@ color: ''};
                                             </Message>}
                         </Grid.Column>
                         <Grid.Column width={14}>
-                        {(posts.length > 0) && <DisplayPosts color={color}
-                        posts={posts} subreddit={selectedSubreddit}/>} 
+                        {(posts.length > 0) && 
+                        <Segment>
+                            <Grid>
+                                <Grid.Row>
+                                    <DisplayOptions />                        
+                                </Grid.Row>
+                                <Grid.Row>
+                                    <DisplayPosts color={color}
+                                    posts={posts} subreddit={selectedSubreddit}/>
+                                </Grid.Row>
+                            </Grid>
+                        </Segment>
+                        } 
                         </Grid.Column>  
                     </Grid>
                 </div>
