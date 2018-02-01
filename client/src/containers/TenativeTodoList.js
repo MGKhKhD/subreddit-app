@@ -9,6 +9,8 @@ import { Card, Icon, Button } from 'semantic-ui-react';
 
 class TenativeTodoList extends Component{
 
+
+
     render(){
         return(
             <div>
@@ -16,7 +18,10 @@ class TenativeTodoList extends Component{
                         {this.props.todos.map(todo => (!todo.saved && <SubredditCardItem 
                         key={todo.todo} 
                         todo={todo}
-                        onSave={() => this.props.onSaveClick(todo)}
+                        onSave={() => {
+                            this.props.onSaveClick(todo);
+                            this.props.initializeSettingList();
+                        }}
                         onDismiss={() => this.props.onDismissClick(todo.todo)}/>))}
                 </Card.Group>
         </div>
@@ -33,6 +38,7 @@ function mapStateToProps(state){
 function mapDispatchToProps(dispatch){
     return {
         onSaveClick: todo => dispatch(saveTodoDB(todo)),
+        initializeSettingList: () =>  dispatch(initializeSettingList()),
         onDismissClick: text => dispatch(deleteTodoFromList(text))
     };
 }

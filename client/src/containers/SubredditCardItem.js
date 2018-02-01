@@ -4,7 +4,7 @@ import _ from 'lodash';
 import { fetchSubreddit } from '../actions/fetching_subreddit';
 
 
-import { Card, Icon, Button } from 'semantic-ui-react';
+import { Card, Icon, Button, Image } from 'semantic-ui-react';
 
 
 class SubredditCardItem extends Component{
@@ -26,7 +26,7 @@ class SubredditCardItem extends Component{
         const post = _.sample(posts);
         return(
             <Card >
-            <Card.Content>
+            <Card.Content>           
                 <Card.Header style={{color: todo.saved? "green": "red"}}>
                   {todo.todo}
                 </Card.Header>

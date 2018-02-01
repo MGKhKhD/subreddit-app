@@ -2,7 +2,8 @@ import api from '../apiCalls';
 import {UPDATE_SAVE_FLAG_OF_TODO, 
     INITILAIZE_SETTING_LIST, ADD_TODO,
     SHOW_ACTIVE_SUBREDDIT_MODAL,
-    DELETE_TODO_FROM_LIST } from '../types';
+    DELETE_TODO_FROM_LIST, 
+    SET_FETCHING_TO_UPDATED } from '../types';
 
 export function deleteTodoFromList(text) {
     return {
@@ -56,6 +57,7 @@ export function settingListInitialized(subreddits){
     }
 }
 
+
 export const initializeSettingList = () => dispatch => 
 api.fetchFromDB.fetchData()
 .then(response => {
@@ -64,3 +66,10 @@ api.fetchFromDB.fetchData()
     }
 });
 
+export const deleteTodoFromDB = (subreddit) => dispatch => 
+api.deleteFromDB.deleteData(subreddit)
+.then(response => {
+    if(response.data.documents){
+        dispatch(settingListInitialized(response.data.documents))
+    }
+});

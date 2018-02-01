@@ -8,11 +8,12 @@ import DisplayPosts from '../components/posts/DisplayPosts';
 import ChooseSubreddit from './ChooseSubreddit';
 
 const DisplayOptions = () => (
-                            <Grid columns={4} >
+                            <Grid columns={5} textAlign='center'>
                             <Grid.Column><Icon name='block layout' size='large'/></Grid.Column>
                             <Grid.Column><Icon name='grid layout' size='large'/></Grid.Column>
                             <Grid.Column><Icon name='list layout' size='large'/></Grid.Column>
                             <Grid.Column><Icon name='refresh' size='large'/></Grid.Column>
+                            <Grid.Column><Icon name='search' size='large'/></Grid.Column>
                             </Grid>)
  
 

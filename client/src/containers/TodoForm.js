@@ -53,10 +53,6 @@ class TodoForm extends Component{
         this.setState({text: '', loading: false});
     }
 
-    componentWillMount(){
-        this.props.initializeList();
-    }
-
 
     validateInput(text){
         let errors = {};
@@ -97,14 +93,13 @@ class TodoForm extends Component{
 
 function mapStateToProps(state){
     return {
-        todos: state.todosFromBD
+        todos: state.todosFromBD,
     };
 }
 
 function mapDispatchToProps(dispatch){
     return {
-        checkIfSubredditExist: subject => dispatch(checkIfSubredditExist(subject)),
-        initializeList: () => dispatch(initializeSettingList())
+        checkIfSubredditExist: subject => dispatch(checkIfSubredditExist(subject))
     }
 }
 

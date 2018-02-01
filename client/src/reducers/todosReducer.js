@@ -2,7 +2,8 @@ import {UPDATE_SAVE_FLAG_OF_TODO,
     ADD_TODO, 
     INITILAIZE_SETTING_LIST, 
     SHOW_ACTIVE_SUBREDDIT_MODAL, 
-    DELETE_TODO_FROM_LIST} from '../types';
+    DELETE_TODO_FROM_LIST, 
+    SET_FETCHING_TO_UPDATED} from '../types';
 
 export  function todos(state=[], action){
     switch(action.type){
@@ -29,6 +30,7 @@ export function todosFromBD(state=[], action){
             return state;
     }
 }
+
 
 export function todoClick(state={}, action){
     switch(action.type){

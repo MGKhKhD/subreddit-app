@@ -24,6 +24,22 @@ router.post('/', (req,res,next) =>{
     });
 });
 
+router.delete('/:subredditId', (req,res,next) =>{
+    Subreddit.remove({ _id: req.params.subredditId})
+    .exec()
+    .then(ressult => {
+        Subreddit.find()
+        .exec()
+        .then(documents => res.status(201).json({documents
+        }));
+    })
+    .catch(err => {
+        res.status(500).json({
+            message: "error"
+        });
+    });
+});
+
 router.get('/', (req,res) => {
     Subreddit.find()
     .exec()

@@ -6,7 +6,7 @@ class CustomaryModal extends Component{
     render(){
         const {post, subreddit, color }=this.props;
         return(
-            <Modal trigger={<Icon name="window maximize"/>}>
+            <Modal trigger={<Icon name="expand"/>}>
                 <Modal.Header style={{color: color}}>{post.title}</Modal.Header>
                 <Modal.Content scrolling>
                 <Modal.Description> 

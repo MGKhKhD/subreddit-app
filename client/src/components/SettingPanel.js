@@ -2,7 +2,8 @@ import React from 'react';
 import TenativeTodoList from '../containers/TenativeTodoList';
 import TodoForm from '../containers/TodoForm';
 import TodoDetail from './setting_pages/TodoDetail';
-import SavedSubredditList from '../components/SavedSubredditList';
+import SettingSidebarSubredditList from '../components/SettingSidebarSubredditList';
+import SettingSidebarCategories from '../components/SettingSidebarCategories';
 
 import { Grid } from 'semantic-ui-react';
 
@@ -13,7 +14,8 @@ const SettingPanel = () =>(
                 <TenativeTodoList />
             </Grid.Column>
             <Grid.Column floated='right' width={3}>
-                <SavedSubredditList />
+                <SettingSidebarCategories />
+                <SettingSidebarSubredditList />
             </Grid.Column>
         </Grid>
 );
