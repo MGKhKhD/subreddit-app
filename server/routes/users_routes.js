@@ -5,28 +5,34 @@ const mongoose = require('mongoose');
 const parsingErrors = require('../utils/parsingErrors');
 const sendConfirmationEmail = require('../utils/mailer');
 
-router.post('/', (req,res)=>{
-    const { email, password, dPassword } = req.body.user;
-    if(password !== dPassword){
+router.post('/', (req, res) => {
+    const {
+        email,
+        password,
+        dPassword
+    } = req.body.user;
+    if (password !== dPassword) {
         return res.status(500).json({
-           errors: {global: 'Unconfirmed password. Try again'}
+            errors: {
+                global: 'Unconfirmed password. Try again'
+            }
         });
     }
     const user = new User({
-        _id: new mongoose.Types.ObjectId(), 
-        email: email });
+        _id: new mongoose.Types.ObjectId(),
+        email: email
+    });
     user.setPassword(password)
     user.setConfimationToken();
     user.save()
-    .then(record => {
-        sendConfirmationEmail(record);
-        res.status(200).json({
-            user: record.toAuthJWT()
-        });
-    }).catch(err => res.status(400).json({
-        errors: parsingErrors(err.errors)
-    }));
+        .then(record => {
+            sendConfirmationEmail(record);
+            res.status(200).json({
+                user: record.toAuthJWT()
+            });
+        }).catch(err => res.status(400).json({
+            errors: parsingErrors(err.errors)
+        }));
 });
 
 module.exports = router;
-

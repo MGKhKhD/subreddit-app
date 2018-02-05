@@ -9,7 +9,7 @@ import  decode  from 'jwt-decode';
 import { composeWithDevTools } from 'redux-devtools-extension';
 
 import { loginAction } from './actions/authentication';
-
+import setTokenHeader from './utils/setTokenHeader';
 import 'semantic-ui-css/semantic.min.css';
 
 import RouterHub from './RouterHub';
@@ -20,6 +20,7 @@ import rootReducer from './reducers/rootReducer';
 const store = createStore(rootReducer, composeWithDevTools(applyMiddleware(thunk)));
 
 if(localStorage.subredditToken){
+    setTokenHeader(localStorage.subredditToken);
     const records = decode(localStorage.subredditToken);
     const user ={ token: localStorage.subredditToken, 
                 email: records.email, 

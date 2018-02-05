@@ -1,9 +1,10 @@
 import React from 'react';
 import {Link} from  'react-router-dom';
 import {Menu, Dropdown, Icon} from 'semantic-ui-react';
+import {connect} from 'react-redux';
+import {logout} from '../actions/authentication';
 
-
-const CustomeryNavbar = () => (
+const CustomeryNavbar = (props) => (
     <Menu attached='top'>      
       <Menu.Item  as={Link} to='/dashboard'>
         Fetch Subreddits
@@ -16,10 +17,10 @@ const CustomeryNavbar = () => (
       <Menu.Item  as={Link} to='/bookmarks'>
         Bookmarks
       </Menu.Item>
-      <Menu.Item  position="right">
+      <Menu.Item  position="right" onClick={() => props.logout()}>
         Logout
       </Menu.Item>
     </Menu>
 );
 
-export default CustomeryNavbar;
+export default connect(null, { logout })(CustomeryNavbar);

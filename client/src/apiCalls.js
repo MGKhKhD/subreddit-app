@@ -1,9 +1,16 @@
 import axios from 'axios';
+import setTokenHeader from './utils/setTokenHeader';
 
 export default {
     fetchFromInternet :{
-        fetchData: subject => axios.get(`https://www.reddit.com/r/${subject}.json`)
-        .then(response => response.data)
+        fetchData: subject => {
+            delete axios.defaults.headers.common.authorisedtoken;
+            return axios.get(`https://www.reddit.com/r/${subject}.json`)
+            .then(response => {
+                setTokenHeader(localStorage.subredditToken);
+                return response.data;
+            });
+        }
     },
 
     postToDB :{

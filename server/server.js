@@ -11,19 +11,19 @@ dotenv.config();
 const app = express();
 app.use(bodyPareser.json());
 
-const subreddit = require('./routes/subreddit_routes');
+
 const auth = require('./routes/auth_routes');
 const users = require('./routes/users_routes');
+const subreddit = require('./routes/subreddit_routes');
 
 mongoose.connect(process.env.mLabURI);
 mongoose.Promise = global.Promise;
 
 app.use(morgan('dev'));
 
+app.use('/api/auth', auth);
 app.use('/api/users', users);
 app.use('/api/subreddits',subreddit);
-app.use('/api/auth', auth);
-
 
 // fallback route
 app.get('/*', (req,res,next) =>{

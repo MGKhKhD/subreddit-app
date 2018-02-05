@@ -4,6 +4,7 @@ import {UPDATE_SAVE_FLAG_OF_TODO,
     SHOW_ACTIVE_SUBREDDIT_MODAL,
     DELETE_TODO_FROM_LIST, 
     SET_FETCHING_TO_UPDATED } from '../types';
+import setTokenHeader from '../utils/setTokenHeader';
 
 export function deleteTodoFromList(text) {
     return {
@@ -22,7 +23,7 @@ export function addTodo(text) {
 
 export const checkIfSubredditExist = (subreddit) => dispatch => 
 api.fetchFromInternet.fetchData(subreddit)
-.then(jsonData => {
+.then(jsonData => { 
     if(jsonData){
         dispatch(addTodo(subreddit))
     }
