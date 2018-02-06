@@ -32,14 +32,12 @@ export function todosFromBD(state=[], action){
     }
 }
 
-export function addCategory(state=[], action){
+export function categories(state=[], action){
     switch(action.type){
         case ADD_CATEGORY:
-            return [...state, {
-                category: action.payload.category,
-                id: action.category._id
-            }];
-        default: return state;
+            return action.payload;
+        default: 
+            return state;
     }
 }
 

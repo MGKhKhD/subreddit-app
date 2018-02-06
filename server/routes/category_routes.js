@@ -12,21 +12,34 @@ router.post('/', (req, res) => {
         })
         .then(cat => {
             if (cat) {
-                res.status(500).json({errors: {global: 'Category already exist.'}});
+                res.status(500).json({
+                    errors: {
+                        global: 'Category already exist.'
+                    }
+                });
             } else {
                 const newCategory = new Category({
                     _id: new mongoose.Types.ObjectId(),
                     category: req.body.category
                 });
                 newCategory.save()
-                    .then(record =>
-                        res.status(201).json({
-                            category: record
+                    .then(record => {
+                        Category.find().select('category -_id').exec()
+                        .then(documents => 
+                            res.status(201).json({
+                            documents
                         }))
+                    })
                     .catch(err =>
-                        res.status(500).json({errors: {global: 'Unsuccessful attempt.'}}))
+                        res.status(500).json({
+                            errors: {
+                                global: 'Unsuccessful attempt.'
+                            }
+                        }))
             }
         });
 });
+
+
 
 module.exports = router;

@@ -12,14 +12,18 @@ class SettingSidebarCategories extends Component{
 
     handleAddCategory = (category) => 
         this.props.addCategory(category)
-        .catch(err => this.setState({errors: err.response.data.errors}));
+        .catch(err => {
+            if(err.response){
+                this.setState({errors: err.response.data.errors});
+            }
+        });
 
     render(){
         const {errors, category } = this.state;
         return(
             <div>
                 <Card>
-                    <Card.Content textAlign='center' style={{fontSize: '1erm'}}>
+                    <Card.Content textAlign='left' style={{fontSize: '1erm'}}>
                         <Card.Header>Add Category</Card.Header>
                         <Card.Meta style={{fontSize: '.5erm'}}>
                         <input type="text" placeholder="News, War, ..." 
@@ -34,7 +38,7 @@ class SettingSidebarCategories extends Component{
                         </Card.Meta>
                     </Card.Content>
                 </Card>
-               {Object.keys(errors).length > 0  && <Card >
+               {!!errors > 0  && <Card >
                 <Card.Content>
                         <Card.Description style={{color: 'red'}}>{errors.global}</Card.Description>
                     </Card.Content>

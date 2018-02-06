@@ -14,7 +14,7 @@ class CustomaryModal extends Component{
                 </Modal.Description>
                 </Modal.Content>
                 <Modal.Actions>
-                     <Icon name='bookmark outline' size='large'/>
+                     <Icon name='bookmark outline' size='large' />
                 </Modal.Actions>
           </Modal>
         );

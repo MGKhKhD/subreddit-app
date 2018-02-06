@@ -16,7 +16,9 @@ class DisplayPosts extends Component{
               <Table.Cell> {post.author}</Table.Cell>
               <Table.Cell> {post.created}</Table.Cell>
               <Table.Cell textAlign="center">
-                <CustomaryModal post={post} subreddit={subreddit} color={color}/>
+                <CustomaryModal post={post} 
+                subreddit={subreddit} 
+                color={color} />
               </Table.Cell>
             </Table.Row>));
             return(

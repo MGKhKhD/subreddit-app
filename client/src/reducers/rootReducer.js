@@ -1,5 +1,5 @@
 import { combineReducers } from 'redux';
-import { todos, todoClick, todosFromBD, addCategory } from './todosReducer.js';
+import { todos, todoClick, todosFromBD, categories } from './todosReducer.js';
 import {receivePosts} from './fetchInternetDataReducer';
 import { authState } from './authReducer';
 
@@ -9,5 +9,5 @@ export default combineReducers({
     receivePosts,
     todosFromBD,
     authState,
-    categories: addCategory
+    categories
 });

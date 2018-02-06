@@ -49,7 +49,6 @@ api.postToDB.postData({subreddit: subreddit, category: category})
 .then(response => {
     if(response.data){
         dispatch(updateSavedFlag(response.data));
-        console.log(response.data);
     }
 });
 
@@ -77,13 +76,15 @@ api.deleteFromDB.deleteData(subreddit)
     }
 });
 
-export function categoryAdded(response){
+export function categoryAdded(categories){
     return {
         type: ADD_CATEGORY,
-        playload: response
+        payload: categories
     }
 }
 
 export const addCategory = category => dispatch =>
 api.categoryAPI.addCategory(category)
-.then(response =>dispatch(categoryAdded(response.data)));
+.then(response =>{
+    dispatch(categoryAdded(response.data.documents));
+});

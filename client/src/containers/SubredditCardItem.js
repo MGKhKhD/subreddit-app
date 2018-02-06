@@ -18,7 +18,7 @@ class CardSaveButton extends Component{
             <Dropdown.Menu>
               <Dropdown.Header content='Categories' />
               {this.props.categories.map(category => 
-              <Dropdown.Item key={category} onClick={()=>this.props.selectCategory(category)}>{category}</Dropdown.Item>)}
+              <Dropdown.Item key={category.category} onClick={()=>this.props.selectCategory(category.category)}>{category.category}</Dropdown.Item>)}
             </Dropdown.Menu>
           </Dropdown>
         );
@@ -40,10 +40,9 @@ class SubredditCardItem extends Component{
 
 
     render(){
-        const {todo, onSave, onDismiss } = this.props;
+        const {todo, onSave, onDismiss, categories } = this.props;
         const { posts } = this.state;
         const post = _.sample(posts);
-        const options = ['untitled','war', 'news'];
         return(
             <Card >
             <Card.Content>           
@@ -59,9 +58,9 @@ class SubredditCardItem extends Component{
               </Card.Content>
               <Card.Content extra>
                 <div className='ui two buttons'>
-                    <CardSaveButton categories={options} 
+                    <CardSaveButton categories={categories} 
                     selectCategory={(category)=>{
-                        this.props.onSaveClick(todo.todo,category);
+                        this.props.onSaveClick(todo.todo, category);
                         onSave();
                     }}/>
                     <Button basic color='red' onClick={() => onDismiss()}>Dismiss</Button>
@@ -72,6 +71,12 @@ class SubredditCardItem extends Component{
     }
 }
 
+function mapStateToProps(state){
+    return{
+        categories: state.categories
+    };
+}
+
 function mapDispatchToProps(dispatch){
     return{
         onSaveClick: (todo, category) => dispatch(saveTodoDB(todo, category)),
@@ -79,4 +84,4 @@ function mapDispatchToProps(dispatch){
     }
 }
 
-export default connect(null, mapDispatchToProps)(SubredditCardItem);
+export default connect(mapStateToProps, mapDispatchToProps)(SubredditCardItem);

@@ -8,6 +8,7 @@ router.use(authRoute);
 
 router.post('/', (req,res,next) =>{
     const data = req.body;
+    console.log(data);
     const savedSubreddit = new Subreddit({
         _id: new  mongoose.Types.ObjectId(),
         subreddit: data.subreddit,
@@ -15,15 +16,15 @@ router.post('/', (req,res,next) =>{
         user: req.authUser._id
     });
     savedSubreddit.save()
-    .then(ressult => {
+    .then(result => {
         res.status(201).json({
             message: "Success",
-            data: savedSubreddit
+            data: result
         });
     })
     .catch(err => {
         res.status(500).json({
-            message: "Error"
+            err
         });
     });
 });
@@ -31,7 +32,7 @@ router.post('/', (req,res,next) =>{
 router.delete('/:subredditId', (req,res,next) =>{
     Subreddit.remove({ _id: req.params.subredditId})
     .exec()
-    .then(ressult => {
+    .then(result => {
         Subreddit.find()
         .exec()
         .then(documents => res.status(201).json({documents
