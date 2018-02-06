@@ -3,7 +3,7 @@ import {UPDATE_SAVE_FLAG_OF_TODO,
     INITILAIZE_SETTING_LIST, ADD_TODO,
     SHOW_ACTIVE_SUBREDDIT_MODAL,
     DELETE_TODO_FROM_LIST, 
-    SET_FETCHING_TO_UPDATED } from '../types';
+    SET_FETCHING_TO_UPDATED, ADD_CATEGORY } from '../types';
 import setTokenHeader from '../utils/setTokenHeader';
 
 export function deleteTodoFromList(text) {
@@ -17,6 +17,7 @@ export function addTodo(text) {
     return {
         type: ADD_TODO,
         payload: text,
+        category: 'untitled',
         saved: false
     };
 }
@@ -36,18 +37,19 @@ export function todoClick(todo){
     };
 }
 
-export function updateSavedFlag(subreddit){
+export function updateSavedFlag(response){
     return {
         type: UPDATE_SAVE_FLAG_OF_TODO,
-        payload: subreddit.todo
+        payload: response
     };
 }
 
-export const saveTodoDB = (subreddit) => dispatch => 
-api.postToDB.postData(subreddit)
+export const saveTodoDB = (subreddit, category) => dispatch => 
+api.postToDB.postData({subreddit: subreddit, category: category})
 .then(response => {
     if(response.data){
-        dispatch(updateSavedFlag(subreddit))
+        dispatch(updateSavedFlag(response.data));
+        console.log(response.data);
     }
 });
 
@@ -74,3 +76,14 @@ api.deleteFromDB.deleteData(subreddit)
         dispatch(settingListInitialized(response.data.documents))
     }
 });
+
+export function categoryAdded(response){
+    return {
+        type: ADD_CATEGORY,
+        playload: response
+    }
+}
+
+export const addCategory = category => dispatch =>
+api.categoryAPI.addCategory(category)
+.then(response =>dispatch(categoryAdded(response.data)));

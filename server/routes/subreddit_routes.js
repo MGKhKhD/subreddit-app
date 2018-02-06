@@ -10,7 +10,7 @@ router.post('/', (req,res,next) =>{
     const data = req.body;
     const savedSubreddit = new Subreddit({
         _id: new  mongoose.Types.ObjectId(),
-        subreddit: data.todo,
+        subreddit: data.subreddit,
         category: data.category,
         user: req.authUser._id
     });
@@ -22,7 +22,6 @@ router.post('/', (req,res,next) =>{
         });
     })
     .catch(err => {
-        console.log('error');
         res.status(500).json({
             message: "Error"
         });

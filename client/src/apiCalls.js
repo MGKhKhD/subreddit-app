@@ -12,9 +12,12 @@ export default {
             });
         }
     },
+    categoryAPI: {
+        addCategory: category => axios.post('/api/categories', {category})
+    },
 
     postToDB :{
-        postData: subreddit =>  axios.post(`/api/subreddits`, subreddit)
+        postData: data =>  axios.post(`/api/subreddits`, data)
     },
 
     fetchFromDB :{

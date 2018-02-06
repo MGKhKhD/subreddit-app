@@ -3,7 +3,8 @@ import {UPDATE_SAVE_FLAG_OF_TODO,
     INITILAIZE_SETTING_LIST, 
     SHOW_ACTIVE_SUBREDDIT_MODAL, 
     DELETE_TODO_FROM_LIST, 
-    SET_FETCHING_TO_UPDATED} from '../types';
+    SET_FETCHING_TO_UPDATED,
+    ADD_CATEGORY} from '../types';
 
 export  function todos(state=[], action){
     switch(action.type){
@@ -13,8 +14,8 @@ export  function todos(state=[], action){
                 saved: action.saved
             }];
         case UPDATE_SAVE_FLAG_OF_TODO:
-            return state.map(obj => obj.todo === action.payload?
-            {...obj, saved: true} : obj);
+            return state.map(obj => obj.todo === action.payload.subreddit?
+            {...obj, saved: true, category: action.payload.category} : obj);
         case DELETE_TODO_FROM_LIST:
             return state.filter(obj => obj.todo !== action.payload);    
         default: 
@@ -28,6 +29,17 @@ export function todosFromBD(state=[], action){
             return action.payload;
         default:
             return state;
+    }
+}
+
+export function addCategory(state=[], action){
+    switch(action.type){
+        case ADD_CATEGORY:
+            return [...state, {
+                category: action.payload.category,
+                id: action.category._id
+            }];
+        default: return state;
     }
 }
 

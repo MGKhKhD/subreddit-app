@@ -2,15 +2,34 @@ import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import _ from 'lodash';
 import { fetchSubreddit } from '../actions/fetching_subreddit';
+import { saveTodoDB } from '../actions/index.js';
 
 
-import { Card, Icon, Button, Image } from 'semantic-ui-react';
 
+import { Card, Icon, Button, Dropdown } from 'semantic-ui-react';
+
+
+class CardSaveButton extends Component{
+    render(){
+        return(
+        <Dropdown text='Save' icon='filter' 
+        floating labeled button className='icon' 
+        color='green'>
+            <Dropdown.Menu>
+              <Dropdown.Header content='Categories' />
+              {this.props.categories.map(category => 
+              <Dropdown.Item key={category} onClick={()=>this.props.selectCategory(category)}>{category}</Dropdown.Item>)}
+            </Dropdown.Menu>
+          </Dropdown>
+        );
+    }
+}
 
 class SubredditCardItem extends Component{
     constructor(props){
         super(props);
         this.state= {posts: []};
+
     }
 
     componentWillMount(){
@@ -24,6 +43,7 @@ class SubredditCardItem extends Component{
         const {todo, onSave, onDismiss } = this.props;
         const { posts } = this.state;
         const post = _.sample(posts);
+        const options = ['untitled','war', 'news'];
         return(
             <Card >
             <Card.Content>           
@@ -39,8 +59,12 @@ class SubredditCardItem extends Component{
               </Card.Content>
               <Card.Content extra>
                 <div className='ui two buttons'>
-                    <Button basic color='green' onClick={() => onSave()}>Save</Button>
-                    <Button basic color='red' onClick={() => onDismiss()}>>Dismiss</Button>
+                    <CardSaveButton categories={options} 
+                    selectCategory={(category)=>{
+                        this.props.onSaveClick(todo.todo,category);
+                        onSave();
+                    }}/>
+                    <Button basic color='red' onClick={() => onDismiss()}>Dismiss</Button>
                 </div>
               </Card.Content>       
             </Card>
@@ -50,6 +74,7 @@ class SubredditCardItem extends Component{
 
 function mapDispatchToProps(dispatch){
     return{
+        onSaveClick: (todo, category) => dispatch(saveTodoDB(todo, category)),
         fetchSubreddit: text => dispatch(fetchSubreddit(text))
     }
 }

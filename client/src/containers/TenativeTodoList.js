@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
-import { saveTodoDB, initializeSettingList, deleteTodoFromList } from '../actions/index.js';
+import { initializeSettingList, deleteTodoFromList } from '../actions/index.js';
 import TodosFromServer from '../components/setting_pages/TodosFromServer';
 import SubredditCardItem from './SubredditCardItem';
 
@@ -18,9 +18,9 @@ class TenativeTodoList extends Component{
                         {this.props.todos.map(todo => (!todo.saved && <SubredditCardItem 
                         key={todo.todo} 
                         todo={todo}
-                        onSave={() => {
-                            this.props.onSaveClick(todo);
+                        onSave={()=> {
                             this.props.initializeSettingList();
+                            this.props.onDismissClick(todo.todo);
                         }}
                         onDismiss={() => this.props.onDismissClick(todo.todo)}/>))}
                 </Card.Group>
@@ -37,7 +37,6 @@ function mapStateToProps(state){
 
 function mapDispatchToProps(dispatch){
     return {
-        onSaveClick: todo => dispatch(saveTodoDB(todo)),
         initializeSettingList: () =>  dispatch(initializeSettingList()),
         onDismissClick: text => dispatch(deleteTodoFromList(text))
     };
