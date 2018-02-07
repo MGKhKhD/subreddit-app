@@ -20,7 +20,8 @@ router.post('/', (req, res) => {
             } else {
                 const newCategory = new Category({
                     _id: new mongoose.Types.ObjectId(),
-                    category: req.body.category
+                    category: req.body.category,
+                    user: req.authUser._id
                 });
                 newCategory.save()
                     .then(record => {
