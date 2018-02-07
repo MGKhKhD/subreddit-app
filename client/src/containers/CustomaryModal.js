@@ -1,10 +1,10 @@
 import React, { Component } from 'react';
-import { Modal, Icon, Button, Header, Image } from 'semantic-ui-react';
+import { Modal, Icon } from 'semantic-ui-react';
 
 
 class CustomaryModal extends Component{
     render(){
-        const {post, subreddit, color }=this.props;
+        const {post, color }=this.props;
         return(
             <Modal trigger={<Icon name="expand"/>}>
                 <Modal.Header style={{color: color}}>{post.title}</Modal.Header>

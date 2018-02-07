@@ -1,6 +1,6 @@
 import React from 'react';
 import {Link} from  'react-router-dom';
-import {Menu, Dropdown, Icon} from 'semantic-ui-react';
+import {Menu} from 'semantic-ui-react';
 import {connect} from 'react-redux';
 import {logout} from '../actions/authentication';
 

@@ -2,6 +2,7 @@ import { combineReducers } from 'redux';
 import { todos, todoClick, todosFromBD, categories } from './todosReducer.js';
 import {receivePosts} from './fetchInternetDataReducer';
 import { authState } from './authReducer';
+import { displayScheme } from './display_posts_reducer';
 
 export default combineReducers({
     todos, 
@@ -9,5 +10,6 @@ export default combineReducers({
     receivePosts,
     todosFromBD,
     authState,
-    categories
+    categories,
+    displayScheme
 });

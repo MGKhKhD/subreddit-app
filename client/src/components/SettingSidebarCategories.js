@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import {Card, Icon} from 'semantic-ui-react';
+import {Card} from 'semantic-ui-react';
 import {connect} from 'react-redux';
 import { addCategory } from '../actions/index';
 

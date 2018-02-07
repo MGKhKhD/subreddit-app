@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
-import { checkIfSubredditExist, initializeSettingList, addTodo } from '../actions/index';
+import { checkIfSubredditExist } from '../actions/index';
 
 import { Button, Form, Message } from 'semantic-ui-react';
 

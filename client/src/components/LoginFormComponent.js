@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import  isEmail  from 'validator/lib/isEmail';
 import _ from 'lodash';
-import { Button, Form, Grid, Header, Icon, Message, Segment } from 'semantic-ui-react';
+import { Button, Form,  Message, Segment } from 'semantic-ui-react';
 
 class LoginFormComponent extends Component{
   constructor(props){

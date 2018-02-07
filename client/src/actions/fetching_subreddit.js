@@ -12,3 +12,7 @@ export function receivePosts(subreddit, jsonData){
 export const fetchSubreddit = (subreddit) => dispatch => 
 api.fetchFromInternet.fetchData(subreddit)
 .then(jsonData => dispatch(receivePosts(subreddit, jsonData)));
+
+export const refreshPosts = (subreddit) => dispatch => 
+api.fetchFromInternet.fetchData(subreddit)
+.then(jsonData => dispatch(receivePosts(subreddit, jsonData)));

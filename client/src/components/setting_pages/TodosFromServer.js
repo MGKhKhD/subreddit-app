@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 
-import { Table, Button, Icon } from 'semantic-ui-react';
+import { Table, Icon } from 'semantic-ui-react';
 
 
 const TodoItemFromDB = ({todo}) => (
@@ -22,6 +22,8 @@ class TodosFromServer extends Component{
                                 return (<TodoItemFromDB 
                                     key={todo._id} 
                                     todo={todo.subreddit}/>)
+                            }else{
+                                return null;
                             }
                         })}
                     </Table.Body>

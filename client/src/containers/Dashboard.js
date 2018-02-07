@@ -1,20 +1,14 @@
 import React, { Component } from 'react';
-import { Button, Message, Grid, Segment, Icon } from 'semantic-ui-react';
+import { Message, Grid, Segment } from 'semantic-ui-react';
 import { connect } from 'react-redux';
 import { fetchSubreddit } from '../actions/fetching_subreddit';
 
 
 import DisplayPosts from '../components/posts/DisplayPosts';
 import ChooseSubreddit from './ChooseSubreddit';
+import PostsDisplayOptions from '../components/posts/PostsDisplayOptions';
 
-const DisplayOptions = () => (
-                            <Grid columns={5} textAlign='center'>
-                            <Grid.Column><Icon name='block layout' size='large'/></Grid.Column>
-                            <Grid.Column><Icon name='grid layout' size='large'/></Grid.Column>
-                            <Grid.Column><Icon name='list layout' size='large'/></Grid.Column>
-                            <Grid.Column><Icon name='refresh' size='large'/></Grid.Column>
-                            <Grid.Column><Icon name='search' size='large'/></Grid.Column>
-                            </Grid>)
+
  
 
 class Dashboard extends Component{
@@ -55,7 +49,9 @@ color: ''};
                         <Segment>
                             <Grid>
                                 <Grid.Row>
-                                    <DisplayOptions />                        
+                                    <PostsDisplayOptions 
+                                    layout={this.props.displayScheme}
+                                    subreddit={selectedSubreddit}/>                        
                                 </Grid.Row>
                                 <Grid.Row>
                                     <DisplayPosts color={color}
@@ -88,7 +84,8 @@ function mapDispatchToProps(dispatch){
 
 function mapStateToProps(state){
     return {
-        isConfirmed: state.authState.confirmed
+        isConfirmed: state.authState.confirmed,
+        displayScheme: state.displayScheme
     }
 }
 
