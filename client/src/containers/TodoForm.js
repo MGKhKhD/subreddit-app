@@ -85,6 +85,7 @@ class TodoForm extends Component{
                         value={this.state.text} width={10}/>
                         <Button type="submit" primary>Submit</Button>
                         <Button secondary>Undo dismisses</Button>
+                        <Button color='grey'>Redo</Button>
                     </Form.Field>
                 </Form>
         )

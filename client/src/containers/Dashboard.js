@@ -46,7 +46,6 @@ color: ''};
                         </Grid.Column>
                         <Grid.Column width={14}>
                         {(posts.length > 0) && 
-                        <Segment>
                             <Grid>
                                 <Grid.Row>
                                     <PostsDisplayOptions 
@@ -58,7 +57,6 @@ color: ''};
                                     posts={posts} subreddit={selectedSubreddit}/>
                                 </Grid.Row>
                             </Grid>
-                        </Segment>
                         } 
                         </Grid.Column>  
                     </Grid>

@@ -5,6 +5,7 @@ import { Table } from 'semantic-ui-react';
 import CustomaryModal from '../../containers/CustomaryModal';
 import ListLayout from './ListLayout';
 import GridLayout from './GridLayout';
+import BlockLayout from './BlockLayout';
 
 class DisplayPosts extends Component{
     render(){
@@ -16,7 +17,8 @@ class DisplayPosts extends Component{
             return <GridLayout color={color}
             posts={posts} subreddit={subreddit}/>;
         }else if(layout === 'block'){
-            return <div>Block</div>;
+            return <BlockLayout color={color}
+            posts={posts} subreddit={subreddit}/>;
         }
     }
 }
