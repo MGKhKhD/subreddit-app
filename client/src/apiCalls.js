@@ -16,16 +16,16 @@ export default {
         addCategory: category => axios.post('/api/categories', {category})
     },
 
-    postToDB :{
-        postData: data =>  axios.post(`/api/subreddits`, data)
-    },
-
-    fetchFromDB :{
-        fetchData: subreddit =>  axios.get(`/api/subreddits`)
-    },
-
-    deleteFromDB : {
+    subredditAPI: {
+        postData: data =>  axios.post(`/api/subreddits`, data),
+        fetchData: subreddit =>  axios.get(`/api/subreddits`),
         deleteData: subreddit => axios.delete(`/api/subreddits/${subreddit._id}`)
+    },
+
+    bookmarkAPI:{
+        saveBookmark: data => axios.post('/api/bookmarks', data),
+        deleteBookmark: title => axios.delete(`/api/bookmarks${title}`),
+        fetchBookmarks: () => axios.get('/api/bookmarks')
     },
 
     user: {

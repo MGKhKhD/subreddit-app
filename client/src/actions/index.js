@@ -45,7 +45,7 @@ export function updateSavedFlag(response){
 }
 
 export const saveTodoDB = (subreddit, category) => dispatch => 
-api.postToDB.postData({subreddit: subreddit, category: category})
+api.subredditAPI.postData({subreddit: subreddit, category: category})
 .then(response => {
     if(response.data){
         dispatch(updateSavedFlag(response.data));
@@ -61,7 +61,7 @@ export function settingListInitialized(subreddits){
 
 
 export const initializeSettingList = () => dispatch => 
-api.fetchFromDB.fetchData()
+api.subredditAPI.fetchData()
 .then(response => {
     if(response.data.documents){
         dispatch(settingListInitialized(response.data.documents))
@@ -69,7 +69,7 @@ api.fetchFromDB.fetchData()
 });
 
 export const deleteTodoFromDB = (subreddit) => dispatch => 
-api.deleteFromDB.deleteData(subreddit)
+api.subredditAPI.deleteData(subreddit)
 .then(response => {
     if(response.data.documents){
         dispatch(settingListInitialized(response.data.documents))
