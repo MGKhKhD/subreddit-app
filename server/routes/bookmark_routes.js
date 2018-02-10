@@ -32,10 +32,10 @@ router.post('/', (req,res) => {
 router.delete('/:title', (req,res) => {
     const title = req.params.title;
 
-    Bookmark.findOneAndRemove({title: data.title})
+    Bookmark.remove({title: title})
     .exec()
     .then(result => res.status(201).json({message: {global: 'Successful.'}}))
-    .catch(err => res.status(201).json({err}));
+    .catch(err => res.status(500).json({err}));
 });
 
 router.get('/', (req,res)=>{

@@ -24,7 +24,7 @@ export default {
 
     bookmarkAPI:{
         saveBookmark: data => axios.post('/api/bookmarks', data),
-        deleteBookmark: title => axios.delete(`/api/bookmarks${title}`),
+        deleteBookmark: title => axios.delete(`/api/bookmarks/${title}`),
         fetchBookmarks: () => axios.get('/api/bookmarks')
     },
 

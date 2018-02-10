@@ -19,12 +19,12 @@ class DisplayBookmarks extends Component{
         const { bookmarks } = this.props;
 
         bookmarks.forEach(bookmark => rows.push(
-            <Table.Row key={bookmark.id} >
+            <Table.Row key={bookmark._id} >
               <Table.Cell>{bookmark.title}</Table.Cell>
               <Table.Cell>{bookmark.meta.score}</Table.Cell>
               <Table.Cell> {bookmark.meta.num_comments}</Table.Cell>
               <Table.Cell> {bookmark.meta.author}</Table.Cell>
-              <Table.Cell> {bookmark.meta.created}</Table.Cell>
+              <Table.Cell> {bookmark.meta.createdAt}</Table.Cell>
             </Table.Row>));
             return(
             <Table celled selectable >

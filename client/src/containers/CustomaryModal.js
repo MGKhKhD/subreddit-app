@@ -9,38 +9,33 @@ import {Transition} from 'semantic-ui-react';
 class CustomaryModal extends Component{
     constructor(props){
         super(props);
-        this.state={visible: true, clicked: false};
+        this.state={visible: true};
     }
 
     handleClick(){
         const {visible, clicked} = this.state;
         const {post, subreddit }=this.props;
-
-        this.setState({visible: !visible, clicked: !clicked});
-
-        if(this.state.clicked){
-            const data = {
-                title: post.title,
-                body: post.selftext,
-                meta:{
-                    subreddit: subreddit,
-                    url: post.url,
-                    num_comments: post.num_comments,
-                    author: post.author,
-                    score: post.score,
-                    createdAt: post.created
-                },
-            }
-            return this.props.saveBookmark(data);
-        }else{
-            return this.props.deleteBookmark(post.title);
+        const data = {
+            title: post.title,
+            body: post.selftext,
+            meta:{
+                subreddit: subreddit,
+                url: post.url,
+                num_comments: post.num_comments,
+                author: post.author,
+                score: post.score,
+                createdAt: post.created
+            },
         }
+
+        this.setState({visible: !visible});
+        return this.props.saveBookmark(data);
     }
 
     render(){
         const {post, color, subreddit }=this.props;
-        const {visible, clicked} = this.state;
-        const name = clicked ? 'bookmark' : 'bookmark outline';
+        const {visible} = this.state;
+        const name = !visible ? 'bookmark' : 'bookmark outline';
         return(
             <Modal trigger={<Icon name="expand"/>}>
                 <Modal.Header style={{color: color}}>{post.title}</Modal.Header>
