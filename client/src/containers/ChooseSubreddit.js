@@ -1,12 +1,13 @@
 import React,  { Component } from 'react';
 import { connect } from 'react-redux';
 import { initializeSettingList } from '../actions/index';
+import {sortBy} from '../actions/fetching_subreddit';
 import getRandomInt from '../utils/randomIntegerGenerator';
 
 import { Grid } from 'semantic-ui-react';
 
 const colors = [
-    'red', 'orange', 'yellow', 'olive', 'green', 'teal', 'blue',
+    'red', 'orange', 'olive', 'green', 'teal', 'blue',
     'violet', 'purple', 'pink', 'brown', 'grey', 'black',
   ];
 
@@ -30,7 +31,10 @@ class ChooseSubreddit extends Component{
                 if(todo.subreddit){
                     return ( <Grid.Column key={todo._id}  color={colors[indColor]} 
                         style={{ margin: '0.5em', height: 50 }}
-                        onClick={()=>this.props.chosenSubreddit(todo.subreddit, colors[indColor])} 
+                        onClick={()=>{
+                            this.props.chosenSubreddit(todo.subreddit, colors[indColor]);
+                            this.props.sortBy('new');
+                        }} 
                         value={this.props.value}>{todo.subreddit}
                         </Grid.Column>);
                 }
@@ -48,8 +52,10 @@ function mapStateToProps(state){
 
 function mapDispatchToProps(dispatch){
     return {
-        initializeList: () => dispatch(initializeSettingList())
+        initializeList: () => dispatch(initializeSettingList()),
+        sortBy: sort => dispatch(sortBy(sort))
     };
 }
+
 
 export default connect(mapStateToProps,mapDispatchToProps)(ChooseSubreddit);

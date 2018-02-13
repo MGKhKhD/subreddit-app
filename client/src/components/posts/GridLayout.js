@@ -1,12 +1,15 @@
 import React from 'react';
-import { Grid, Card, Icon} from 'semantic-ui-react';
+import { Grid, Card, Icon, Image} from 'semantic-ui-react';
 import _ from 'lodash';
 
 import CustomaryModal from '../../containers/CustomaryModal';
 
 const GridElement = ({post, subreddit, color}) => {
+    const imageUrl =  post.preview ? post.preview.images[0].source.url : 
+    'https://i.redd.it/4qezgmi0x87z.png';
     return(
         <Card>
+            <Image src={imageUrl} />
         <Card.Content header={post.title} />
         {post.selftext && <Card.Content description={post.selftext.substring(0, 100)} />}
         <Card.Content extra>

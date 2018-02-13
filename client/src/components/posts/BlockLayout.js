@@ -4,8 +4,11 @@ import { Item, Grid } from 'semantic-ui-react';
 import CustomaryModal from '../../containers/CustomaryModal';
 
 const ItemElement = ({post, subreddit, color}) =>{
+    const imageUrl =  post.preview ? post.preview.images[0].source.url : 
+    'https://i.redd.it/4qezgmi0x87z.png';
     return(
     <Item>
+        <Item.Image size='tiny' src={imageUrl} />
     <Item.Content>
         <Item.Header>{post.title}</Item.Header>
         <Item.Description>{post.selftext}</Item.Description>

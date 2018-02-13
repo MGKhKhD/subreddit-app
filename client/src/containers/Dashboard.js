@@ -18,9 +18,16 @@ class Dashboard extends Component{
     selectedSubreddit: '',
 color: ''};
 
+
+    componentWillReceiveProps(nextProps){
+        if(nextProps.sort !== this.props.sort){
+            this.setSubreddit(this.state.selectedSubreddit, nextProps.sort);
+        }
+    }
+
     setSubreddit = (subreddit, color) => {
         this.setState({loading: true, selectedSubreddit: subreddit, color: color});
-        this.props.fetchSubreddit(subreddit)
+        this.props.fetchSubreddit(subreddit, this.props.sort)
         .then(response => {
             this.setState({posts: response.payload, loading: false});
         }).catch(err => {
@@ -76,14 +83,15 @@ color: ''};
 
 function mapDispatchToProps(dispatch){
     return {
-        fetchSubreddit: subject => dispatch(fetchSubreddit(subject))
+        fetchSubreddit: (subject, sort) => dispatch(fetchSubreddit(subject, sort))
     };
 }
 
 function mapStateToProps(state){
     return {
         isConfirmed: state.authState.confirmed,
-        displayScheme: state.displayScheme
+        displayScheme: state.displayScheme,
+        sort: state.sortPosts
     }
 }
 

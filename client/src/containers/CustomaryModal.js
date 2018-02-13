@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import {saveBookmark, deleteBookmark} from '../actions/bookmarks_actios';
 
-import { Modal, Icon } from 'semantic-ui-react';
+import { Modal, Icon, Image } from 'semantic-ui-react';
 import {Transition} from 'semantic-ui-react';
 
 
@@ -36,10 +36,13 @@ class CustomaryModal extends Component{
         const {post, color, subreddit }=this.props;
         const {visible} = this.state;
         const name = !visible ? 'bookmark' : 'bookmark outline';
+        const imageUrl =  post.preview ? post.preview.images[0].source.url : 
+        'https://i.redd.it/4qezgmi0x87z.png';
         return(
             <Modal trigger={<Icon name="expand"/>}>
                 <Modal.Header style={{color: color}}>{post.title}</Modal.Header>
                 <Modal.Content scrolling>
+                <Image wrapped size='medium' src={imageUrl} />
                 <Modal.Description> 
                 <p>{post.selftext}</p>
                 </Modal.Description>

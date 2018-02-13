@@ -1,4 +1,4 @@
-import { RECEIVE_POSTS } from '../types';
+import { RECEIVE_POSTS, SORT_SUBREDDIT_BY } from '../types';
 import api from '../apiCalls';
 
 export function receivePosts(subreddit, jsonData){
@@ -8,9 +8,16 @@ export function receivePosts(subreddit, jsonData){
     };
 }
 
+export function sortBy(sort){
+    return {
+        type: SORT_SUBREDDIT_BY,
+        payload: sort
+    }
+}
 
-export const fetchSubreddit = (subreddit) => dispatch => 
-api.fetchFromInternet.fetchData(subreddit)
+
+export const fetchSubreddit = (subreddit, sort) => dispatch => 
+api.fetchFromInternet.fetchData(subreddit, sort)
 .then(jsonData => dispatch(receivePosts(subreddit, jsonData)));
 
 export const refreshPosts = (subreddit) => dispatch => 

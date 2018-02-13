@@ -6,20 +6,15 @@ import { connect } from 'react-redux';
 import {displayPostsLayout } from '../../actions/display_actions';
 import { refreshPosts } from '../../actions/fetching_subreddit';
 
-import {
-    Grid,
-    Icon
-} from 'semantic-ui-react';
+import { Grid, Icon, Dropdown } from 'semantic-ui-react';
+
+import SortOptions from './SortOptions';
 
 
 class PostsDisplayOptions extends Component {
-    constructor(props) {
-        super(props);
-    }
-
 
     render() {
-        return ( <Grid columns ='5' textAlign = 'center' >
+        return ( <Grid columns ='6' textAlign = 'center' >
                         <Grid.Column> <Icon name = 'block layout'
                         size = 'large'
                         onClick = { () => this.props.displayAction('block')
@@ -43,15 +38,18 @@ class PostsDisplayOptions extends Component {
                         <Grid.Column > <Icon name = 'search'
                         size = 'large'
                         /></Grid.Column>
+                        <Grid.Column > 
+                            <SortOptions /> 
+                        </Grid.Column>
             </Grid >);
         }
     }
 
-    function mapDispatchToProps(dispatch){
-        return {
-            displayAction: action => dispatch(displayPostsLayout(action)),
-            refreshAction: subreddit => dispatch(refreshPosts(subreddit))
-        };
-    }
+function mapDispatchToProps(dispatch){
+    return {
+        displayAction: action => dispatch(displayPostsLayout(action)),
+        refreshAction: subreddit => dispatch(refreshPosts(subreddit))
+    };
+}
 
-    export default connect(null, mapDispatchToProps)(PostsDisplayOptions);
+ export default connect(null, mapDispatchToProps)(PostsDisplayOptions);

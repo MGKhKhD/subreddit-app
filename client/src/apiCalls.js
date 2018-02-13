@@ -3,9 +3,9 @@ import setTokenHeader from './utils/setTokenHeader';
 
 export default {
     fetchFromInternet :{
-        fetchData: subject => {
+        fetchData: (subject, sort) => {
             delete axios.defaults.headers.common.authorisedtoken;
-            return axios.get(`https://www.reddit.com/r/${subject}.json`)
+            return axios.get(`https://www.reddit.com/search.json?q=${subject}&sort=${sort}&limit=100`)
             .then(response => {
                 setTokenHeader(localStorage.subredditToken);
                 return response.data;
