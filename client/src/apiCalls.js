@@ -4,16 +4,13 @@ import setTokenHeader from './utils/setTokenHeader';
 export default {
     fetchFromInternet :{
         fetchData: (subject, sort) => {
-            delete axios.defaults.headers.common.authorisedtoken;
-            return axios.get(`https://www.reddit.com/search.json?q=${subject}&sort=${sort}&limit=100`)
-            .then(response => {
-                setTokenHeader(localStorage.subredditToken);
-                return response.data;
-            });
+            return fetch(`https://www.reddit.com/search.json?q=${subject}&sort=${sort}&limit=100`)
+            .then(response => response.json())
         }
     },
     categoryAPI: {
-        addCategory: category => axios.post('/api/categories', {category})
+        addCategory: category => axios.post('/api/categories', {category}), 
+        fetchCategories: () => axios.get('/api/categories')
     },
 
     subredditAPI: {

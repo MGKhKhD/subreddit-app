@@ -4,7 +4,7 @@ import {UPDATE_SAVE_FLAG_OF_TODO,
     SHOW_ACTIVE_SUBREDDIT_MODAL, 
     DELETE_TODO_FROM_LIST, 
     SET_FETCHING_TO_UPDATED,
-    ADD_CATEGORY} from '../types';
+    ADD_CATEGORY, PERSIST_CATEGORY_LIST} from '../types';
 
 export  function todos(state=[], action){
     switch(action.type){
@@ -35,6 +35,8 @@ export function todosFromBD(state=[], action){
 export function categories(state=[], action){
     switch(action.type){
         case ADD_CATEGORY:
+            return action.payload;
+        case PERSIST_CATEGORY_LIST:
             return action.payload;
         default: 
             return state;

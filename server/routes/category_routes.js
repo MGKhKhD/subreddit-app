@@ -41,6 +41,16 @@ router.post('/', (req, res) => {
         });
 });
 
+router.get('/', (req, res) => {
+    console.log(req.authUser._id);
+    Category.find({ user: req.authUser._id })
+    .exec()
+    .then(documents => res.status(201).json({documents}))
+    .catch(err => res.status(500).json({
+        errors: {global: 'Unable to Fetch categories'}
+    }))
+})
+
 
 
 module.exports = router;

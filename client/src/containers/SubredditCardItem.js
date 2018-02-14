@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import _ from 'lodash';
 import { fetchSubreddit } from '../actions/fetching_subreddit';
-import { saveTodoDB } from '../actions/index.js';
+import { saveTodoDB, fetchCategories } from '../actions/index.js';
 
 
 
@@ -28,7 +28,7 @@ class CardSaveButton extends Component{
 class SubredditCardItem extends Component{
     constructor(props){
         super(props);
-        this.state= {posts: []};
+        this.state= {posts: [], errors:{}};
 
     }
 
@@ -36,7 +36,15 @@ class SubredditCardItem extends Component{
         this.props.fetchSubreddit(this.props.todo.todo)
         .then(response => 
             this.setState({posts: response.payload}));
+
+        this.props.fetchCategories().then(category => console.log(category))
+        .catch(err => {
+            if(err.response){
+                this.setState({errors: err.response.data.errors});
+            }}
+        );
     }
+
 
 
     render(){
@@ -80,7 +88,8 @@ function mapStateToProps(state){
 function mapDispatchToProps(dispatch){
     return{
         onSaveClick: (todo, category) => dispatch(saveTodoDB(todo, category)),
-        fetchSubreddit: text => dispatch(fetchSubreddit(text))
+        fetchSubreddit: text => dispatch(fetchSubreddit(text)),
+        fetchCategories: () => dispatch(fetchCategories())
     }
 }
 

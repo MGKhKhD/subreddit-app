@@ -1,13 +1,22 @@
 import React, { Component } from 'react';
 import {Card} from 'semantic-ui-react';
 import {connect} from 'react-redux';
-import { addCategory } from '../actions/index';
+import { addCategory, fetchCategories } from '../actions/index';
 
 class SettingSidebarCategories extends Component{
     constructor(props){
         super(props);
         this.state={category: '', errors: {}};
 
+    }
+
+    componentDidMount(){
+        this.props.fetchCategories().then(category => console.log(category))
+        .catch(err => {
+            if(err.response){
+                this.setState({errors: err.response.data.errors});
+            }}
+        );
     }
 
     handleAddCategory = (category) => 
@@ -50,7 +59,8 @@ class SettingSidebarCategories extends Component{
 
 function mapDisptchToProps(dispatch){
     return{
-        addCategory: category => dispatch(addCategory(category))
+        addCategory: category => dispatch(addCategory(category)),
+        fetchCategories: () => dispatch(fetchCategories())
     };
 }
 

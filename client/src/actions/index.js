@@ -3,7 +3,7 @@ import {UPDATE_SAVE_FLAG_OF_TODO,
     INITILAIZE_SETTING_LIST, ADD_TODO,
     SHOW_ACTIVE_SUBREDDIT_MODAL,
     DELETE_TODO_FROM_LIST, 
-    SET_FETCHING_TO_UPDATED, ADD_CATEGORY } from '../types';
+    SET_FETCHING_TO_UPDATED, ADD_CATEGORY, PERSIST_CATEGORY_LIST } from '../types';
 import setTokenHeader from '../utils/setTokenHeader';
 
 export function deleteTodoFromList(text) {
@@ -87,4 +87,17 @@ export const addCategory = category => dispatch =>
 api.categoryAPI.addCategory(category)
 .then(response =>{
     dispatch(categoryAdded(response.data.documents));
+});
+
+export function persisCategoryList(categories){
+    return {
+        type: PERSIST_CATEGORY_LIST,
+        payload: categories
+    }
+}
+
+export const fetchCategories = () => dispatch =>
+api.categoryAPI.fetchCategories()
+.then(response =>{
+    dispatch(persisCategoryList(response.data.documents));
 });
