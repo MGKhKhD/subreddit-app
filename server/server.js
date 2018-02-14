@@ -20,6 +20,7 @@ const bookmark = require('./routes/bookmark_routes');
 
 mongoose.connect(process.env.mLabURI);
 mongoose.Promise = global.Promise;
+mongoose.set('debug', true)
 
 app.use(morgan('dev'));
 

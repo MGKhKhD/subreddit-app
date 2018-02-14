@@ -22,21 +22,20 @@ router.post('/', (req, res, next) => {
         .exec()
         .then(document => {
             if (!document) {
-
-                savedSubreddit.save()
-                    .then(result => Category.findOne({
-                        category: data.category
-                    })
-                    .exec())
-                    .then(record => {
-                        record.subreddits.push(savedSubreddit._id);
-                        return record.save({
-                            _id: record._id
-                        });
-                    })
-                    .then(() => res.status(201).json({
-                        data: savedSubreddit
-                    }))
+                Category.findOne({
+                    category: data.category, user: req.authUser._id
+                })
+                .exec()
+                .then(record => {
+                    record.subreddits.push(savedSubreddit._id); 
+                    return record.save({
+                        _id: record._id
+                    });
+                })
+                .then((id) => savedSubreddit.save())
+                .then((result) => res.status(201).json({
+                    data: result
+                }))
             }
         })
         .catch(err => {
@@ -48,7 +47,14 @@ router.post('/', (req, res, next) => {
         });
 });
 
-router.delete('/:subredditId', (req, res, next) => {
+router.delete('/:subredditId', (req, res) => {
+    Subreddit.find({user: req.authUser._id})
+    .exec()
+    .then(document => {
+        if(!document){
+            res.redirect('/api/subreddits')
+        }
+    })
     Subreddit.remove({
             _id: req.params.subredditId
         })
@@ -68,7 +74,7 @@ router.delete('/:subredditId', (req, res, next) => {
 });
 
 router.get('/', (req, res) => {
-    Subreddit.find()
+    Subreddit.find({user: req.authUser._id})
         .exec()
         .then(documents => res.status(201).json({
             documents

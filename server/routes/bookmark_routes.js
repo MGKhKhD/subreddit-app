@@ -30,6 +30,13 @@ router.post('/', (req,res) => {
 });
 
 router.delete('/:title', (req,res) => {
+    bookmark.find({user: req.authUser._id})
+    .exec()
+    .then(document => {
+        if(!document){
+            res.redirect('/api/bookmarks')
+        }
+    })
     const title = req.params.title;
 
     Bookmark.remove({title: title})
@@ -39,7 +46,7 @@ router.delete('/:title', (req,res) => {
 });
 
 router.get('/', (req,res)=>{
-    Bookmark.find({})
+    Bookmark.find({user: req.authUser._id})
     .select('-user -notes')
     .exec()
     .then(bookmarks => res.status(201).json({bookmarks}))

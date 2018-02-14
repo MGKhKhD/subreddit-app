@@ -68,8 +68,8 @@ api.subredditAPI.fetchData()
     }
 });
 
-export const deleteTodoFromDB = (subreddit) => dispatch => 
-api.subredditAPI.deleteData(subreddit)
+export const deleteTodoFromDB = (subredditId) => dispatch => 
+api.subredditAPI.deleteData(subredditId)
 .then(response => {
     if(response.data.documents){
         dispatch(settingListInitialized(response.data.documents))
@@ -95,6 +95,7 @@ export function persisCategoryList(categories){
         payload: categories
     }
 }
+
 
 export const fetchCategories = () => dispatch =>
 api.categoryAPI.fetchCategories()

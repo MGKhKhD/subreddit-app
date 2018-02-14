@@ -15,8 +15,8 @@ export default {
 
     subredditAPI: {
         postData: data =>  axios.post(`/api/subreddits`, data),
-        fetchData: subreddit =>  axios.get(`/api/subreddits`),
-        deleteData: subreddit => axios.delete(`/api/subreddits/${subreddit._id}`)
+        fetchData: () =>  axios.get(`/api/subreddits`),
+        deleteData: subredditId => axios.delete(`/api/subreddits/${subredditId}`)
     },
 
     bookmarkAPI:{

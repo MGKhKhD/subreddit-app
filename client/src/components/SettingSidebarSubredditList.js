@@ -1,50 +1,52 @@
 
 import React,  { Component } from 'react';
 import { connect } from 'react-redux';
-import { initializeSettingList, deleteTodoFromDB } from '../actions/index';
+import SettingSideBarSubredditsPerCategory from './SettingSideBarSubredditsPerCategory';
+import {fetchCategories} from '../actions/index';
 
-import { Grid, Icon } from 'semantic-ui-react';
+import { Menu } from 'semantic-ui-react';
+
+
 
 
 class SettingSidebarSubredditList extends Component{
+    constructor(props){
+        super(props);
+        this.state={errors: {}};
+
+    }
 
 
     componentWillMount(){
-        this.props.initializeSettingList();
+        this.props.fetchCategories()
+        .catch(err => {
+            if(err.response){
+                this.setState({errors: err.response.data.errors});
+            }}
+        );
     }
-
-
 
 
     render(){
-        const { todos } = this.props;
-        return(
-            <Grid stackable columns={1} centered padded>
-            {todos.map( todo =>  <Grid.Column key={todo._id}  
-                        style={{ margin: '0.5em', height: 30 }} >
-                        <Grid columns={3} >
-                        <Grid.Column>
-                        {todo.subreddit}
-                        </Grid.Column>
-                        <Grid.Column>12</Grid.Column>
-                        <Grid.Column>
-                            <Icon name='remove circle' color='red' 
-                            onClick={()=>{
-                                this.props.deleteTodoFromDB(todo)
-                                }}/>
-                        </Grid.Column>
-                        </Grid>
-                        </Grid.Column>)}
-            </Grid>
-        );
-    }
+        const { categories } = this.props;
+        return(<Menu vertical>
+            {categories.map(category => <Menu.Item key={category._id}>
+                <Menu.Header>{category.category}</Menu.Header>
+                {!!category.subreddits && <SettingSideBarSubredditsPerCategory 
+                todos={category.subreddits}/>}
+            </Menu.Item>
+        )
+        }
+        </Menu>);
 }
+}
+
 
 function mapStateToProps(state){
     return {
-        todos: state.todosFromBD
+        categories: state.categories
     }
 }
 
 export default connect(mapStateToProps, 
-    { initializeSettingList, deleteTodoFromDB })(SettingSidebarSubredditList);
+    { fetchCategories })(SettingSidebarSubredditList);

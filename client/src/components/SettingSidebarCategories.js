@@ -10,15 +10,6 @@ class SettingSidebarCategories extends Component{
 
     }
 
-    componentDidMount(){
-        this.props.fetchCategories().then(category => console.log(category))
-        .catch(err => {
-            if(err.response){
-                this.setState({errors: err.response.data.errors});
-            }}
-        );
-    }
-
     handleAddCategory = (category) => 
         this.props.addCategory(category)
         .catch(err => {
@@ -59,8 +50,7 @@ class SettingSidebarCategories extends Component{
 
 function mapDisptchToProps(dispatch){
     return{
-        addCategory: category => dispatch(addCategory(category)),
-        fetchCategories: () => dispatch(fetchCategories())
+        addCategory: category => dispatch(addCategory(category))
     };
 }
 

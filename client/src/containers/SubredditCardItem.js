@@ -37,7 +37,7 @@ class SubredditCardItem extends Component{
         .then(response => 
             this.setState({posts: response.payload}));
 
-        this.props.fetchCategories().then(category => console.log(category))
+        this.props.fetchCategories()
         .catch(err => {
             if(err.response){
                 this.setState({errors: err.response.data.errors});
