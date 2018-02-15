@@ -8,7 +8,7 @@ router.use(authRoute);
 
 router.post('/', (req, res) => {
     Category.findOne({
-            category: req.body.category
+            category: req.body.category, user: req.authUser._id
         })
         .then(cat => {
             if (cat) {
@@ -25,7 +25,7 @@ router.post('/', (req, res) => {
                 });
                 newCategory.save()
                     .then(record => {
-                        Category.find().select('category -_id').exec()
+                        Category.find({user: req.authUser._id}).select('category -_id').exec()
                         .then(documents => 
                             res.status(201).json({
                             documents

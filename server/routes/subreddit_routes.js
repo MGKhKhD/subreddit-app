@@ -17,7 +17,7 @@ router.post('/', (req, res, next) => {
     });
 
     Subreddit.findOne({
-            subreddit: data.subreddit
+            subreddit: data.subreddit, user:req.authUser._id
         })
         .exec()
         .then(document => {
@@ -60,7 +60,7 @@ router.delete('/:subredditId', (req, res) => {
         })
         .exec()
         .then(result => {
-            Subreddit.find()
+            Subreddit.find({user: req.authUser._id})
                 .exec()
                 .then(documents => res.status(201).json({
                     documents

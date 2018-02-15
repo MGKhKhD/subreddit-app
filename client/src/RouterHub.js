@@ -13,9 +13,10 @@ import UnAuthRoute from './containers/UnAuthRoute';
 import AuthRoute from './containers/AuthRote';
 import ConfimationPage from './containers/ConfirmationPage';
 import DisplayBookmarks from './components/Bookmarks/DisplayBookmarks';
+import NotesPage from './components/notes/NotesPage';
 
 const BookmarksPage = () =>(<DisplayBookmarks />);
-const SettingNotes = () =>(<div>Notes</div>);
+const SettingNotes = () =>(<NotesPage />);
 
 const RouterHub =({ location, isAuthenticated}) =>(
     <div className="ui container">

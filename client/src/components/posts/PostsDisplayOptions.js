@@ -9,12 +9,13 @@ import { refreshPosts } from '../../actions/fetching_subreddit';
 import { Grid, Icon, Dropdown } from 'semantic-ui-react';
 
 import SortOptions from './SortOptions';
+import PostsPerPage from './PostsPerPage';
 
 
 class PostsDisplayOptions extends Component {
 
     render() {
-        return ( <Grid columns ='6' textAlign = 'center' >
+        return ( <Grid columns ='7' textAlign = 'center' >
                         <Grid.Column> <Icon name = 'block layout'
                         size = 'large'
                         onClick = { () => this.props.displayAction('block')
@@ -40,6 +41,9 @@ class PostsDisplayOptions extends Component {
                         /></Grid.Column>
                         <Grid.Column > 
                             <SortOptions /> 
+                        </Grid.Column>
+                        <Grid.Column > 
+                            <PostsPerPage /> 
                         </Grid.Column>
             </Grid >);
         }

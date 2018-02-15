@@ -4,6 +4,7 @@ import { Item, Grid } from 'semantic-ui-react';
 import CustomaryModal from '../../containers/CustomaryModal';
 
 const ItemElement = ({post, subreddit, color}) =>{
+    console.log(post);
     const imageUrl =  post.preview ? post.preview.images[0].source.url : 
     'https://i.redd.it/4qezgmi0x87z.png';
     return(

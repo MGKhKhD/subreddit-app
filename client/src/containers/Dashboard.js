@@ -7,12 +7,13 @@ import { fetchSubreddit } from '../actions/fetching_subreddit';
 import DisplayPosts from '../components/posts/DisplayPosts';
 import ChooseSubreddit from './ChooseSubreddit';
 import PostsDisplayOptions from '../components/posts/PostsDisplayOptions';
-
+import PostsPagination from '../components/posts/PostsPagination';
 
  
 
 class Dashboard extends Component{
     state = {posts: [], 
+        postsToDisplay: [],
         loading: false, 
         errors: {},
     selectedSubreddit: '',
@@ -61,8 +62,14 @@ color: ''};
                                 </Grid.Row>
                                 <Grid.Row>
                                     <DisplayPosts color={color}
-                                    posts={posts} subreddit={selectedSubreddit}/>
+                                    posts={this.state.postsToDisplay} subreddit={selectedSubreddit}/>
                                 </Grid.Row>
+                                {!!posts && 
+                                    <Grid.Row>
+                                    <PostsPagination posts={posts} 
+                                    displayPosts={(posts) => this.setState({postsToDisplay: posts})}/>
+                                </Grid.Row>
+                                }
                             </Grid>
                         } 
                         </Grid.Column>  

@@ -16,7 +16,7 @@ router.post('/', (req,res) => {
         user: req.authUser._id
     });
 
-    Bookmark.findOne({title: data.title})
+    Bookmark.findOne({title: data.title, user: req.authUser._id})
     .exec()
     .then(record => {
         if(!record){
@@ -39,7 +39,7 @@ router.delete('/:title', (req,res) => {
     })
     const title = req.params.title;
 
-    Bookmark.remove({title: title})
+    Bookmark.remove({title: title, user: req.authUser._id})
     .exec()
     .then(result => res.status(201).json({message: {global: 'Successful.'}}))
     .catch(err => res.status(500).json({err}));

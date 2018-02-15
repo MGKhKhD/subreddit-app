@@ -9,7 +9,7 @@ import BlockLayout from './BlockLayout';
 
 class DisplayPosts extends Component{
     render(){
-        const {color, posts, subreddit, layout} = this.props;
+        const {color, posts, subreddit, layout, numPostsPerPage} = this.props;
         if(layout === 'list'){
             return <ListLayout color={color}
             posts={posts} subreddit={subreddit}/>;
@@ -25,7 +25,8 @@ class DisplayPosts extends Component{
 
 function mapStateToProps(state){
     return{
-        layout: state.displayScheme
+        layout: state.displayScheme.display,
+        numPostsPerPage: state.displayScheme.numPostsPerPage
     };
 }
 
