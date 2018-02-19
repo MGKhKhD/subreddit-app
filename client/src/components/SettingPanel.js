@@ -8,8 +8,8 @@ import SettingSidebarCategories from '../components/SettingSidebarCategories';
 import { Grid } from 'semantic-ui-react';
 
 const SettingPanel = () =>(
-        <Grid>
-            <Grid.Column floated='left' width={10}>
+        <Grid columns={2}>
+            <Grid.Column floated='left' width={9}>
                 <TodoForm />
                 <TenativeTodoList />
             </Grid.Column>

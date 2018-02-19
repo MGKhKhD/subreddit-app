@@ -1,25 +1,20 @@
 import { RECEIVE_POSTS, SORT_SUBREDDIT_BY } from '../types';
 import api from '../apiCalls';
+import {createSyncAction} from './actionCreators';
 
-export function receivePosts(subreddit, jsonData){
-    return{
-        type: RECEIVE_POSTS,
-        payload: jsonData.data.children.map(child => child.data)
-    };
-}
-
-export function sortBy(sort){
-    return {
-        type: SORT_SUBREDDIT_BY,
-        payload: sort
-    }
-}
-
+export const receivePosts = createSyncAction(RECEIVE_POSTS, 'data');
+export const sortBy = createSyncAction(SORT_SUBREDDIT_BY, 'sort');
 
 export const fetchSubreddit = (subreddit, sort) => dispatch => 
 api.fetchFromInternet.fetchData(subreddit, sort)
-.then(jsonData => dispatch(receivePosts(subreddit, jsonData)));
+.then(jsonData => {
+    let mappedData = jsonData.data.children.map(child => child.data);
+    return dispatch(receivePosts(mappedData))
+});
 
 export const refreshPosts = (subreddit) => dispatch => 
 api.fetchFromInternet.fetchData(subreddit)
-.then(jsonData => dispatch(receivePosts(subreddit, jsonData)));
+.then(jsonData => {
+    let mappedData = jsonData.data.children.map(child => child.data);
+    return dispatch(receivePosts(mappedData))
+});

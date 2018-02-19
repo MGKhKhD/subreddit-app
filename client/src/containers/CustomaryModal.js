@@ -33,14 +33,14 @@ class CustomaryModal extends Component{
     }
 
     render(){
-        const {post, color, subreddit }=this.props;
+        const {post,  subreddit }=this.props;
         const {visible} = this.state;
         const name = !visible ? 'bookmark' : 'bookmark outline';
         const imageUrl =  post.preview ? post.preview.images[0].source.url : 
         'https://i.redd.it/4qezgmi0x87z.png';
         return(
             <Modal trigger={<Icon name="expand"/>}>
-                <Modal.Header style={{color: color}}>{post.title}</Modal.Header>
+                <Modal.Header >{post.title}</Modal.Header>
                 <Modal.Content scrolling>
                 <Image wrapped size='medium' src={imageUrl} />
                 <Modal.Description> 

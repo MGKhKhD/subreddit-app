@@ -16,8 +16,7 @@ class Dashboard extends Component{
         postsToDisplay: [],
         loading: false, 
         errors: {},
-    selectedSubreddit: '',
-color: ''};
+    selectedSubreddit: ''};
 
 
     componentWillReceiveProps(nextProps){
@@ -30,7 +29,7 @@ color: ''};
         this.setState({loading: true, selectedSubreddit: subreddit, color: color});
         this.props.fetchSubreddit(subreddit, this.props.sort)
         .then(response => {
-            this.setState({posts: response.payload, loading: false});
+            this.setState({posts: response.data, loading: false});
         }).catch(err => {
             this.setState({errors: err});
         });
@@ -61,7 +60,7 @@ color: ''};
                                     subreddit={selectedSubreddit}/>                        
                                 </Grid.Row>
                                 <Grid.Row>
-                                    <DisplayPosts color={color}
+                                    <DisplayPosts
                                     posts={this.state.postsToDisplay} subreddit={selectedSubreddit}/>
                                 </Grid.Row>
                                 {!!posts && 

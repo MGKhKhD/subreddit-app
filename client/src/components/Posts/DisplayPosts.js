@@ -9,15 +9,15 @@ import BlockLayout from './BlockLayout';
 
 class DisplayPosts extends Component{
     render(){
-        const {color, posts, subreddit, layout, numPostsPerPage} = this.props;
+        const {posts, subreddit, layout, numPostsPerPage} = this.props;
         if(layout === 'list'){
-            return <ListLayout color={color}
+            return <ListLayout 
             posts={posts} subreddit={subreddit}/>;
         }else if(layout === 'grid'){
-            return <GridLayout color={color}
+            return <GridLayout 
             posts={posts} subreddit={subreddit}/>;
         }else if(layout === 'block'){
-            return <BlockLayout color={color}
+            return <BlockLayout 
             posts={posts} subreddit={subreddit}/>;
         }
     }

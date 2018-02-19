@@ -6,7 +6,7 @@ import CustomaryModal from '../../containers/CustomaryModal';
 class ListLayout extends Component{
     render(){
         const rows = [];
-        const { posts, subreddit, color } = this.props;
+        const { posts, subreddit } = this.props;
 
         posts.forEach(post => rows.push(
             <Table.Row key={post.id} >
@@ -17,12 +17,11 @@ class ListLayout extends Component{
               <Table.Cell> {post.created}</Table.Cell>
               <Table.Cell textAlign="center">
                 <CustomaryModal post={post} 
-                subreddit={subreddit} 
-                color={color} />
+                subreddit={subreddit}  />
               </Table.Cell>
             </Table.Row>));
             return(
-            <Table celled selectable color={color}>
+            <Table celled selectable >
                 <Table.Header >
                     <Table.Row>
                         <Table.HeaderCell width={6}>Title</Table.HeaderCell>

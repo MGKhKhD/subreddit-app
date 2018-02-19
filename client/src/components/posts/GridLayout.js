@@ -4,7 +4,7 @@ import _ from 'lodash';
 
 import CustomaryModal from '../../containers/CustomaryModal';
 
-const GridElement = ({post, subreddit, color}) => {
+const GridElement = ({post, subreddit}) => {
     const imageUrl =  post.preview ? post.preview.images[0].source.url : 
     'https://i.redd.it/4qezgmi0x87z.png';
     return(
@@ -19,8 +19,7 @@ const GridElement = ({post, subreddit, color}) => {
                     <Grid.Column>Score: {post.score}</Grid.Column>
                     <Grid.Column textAlign='right'>
                         <CustomaryModal post={post} 
-                        subreddit={subreddit} 
-                        color={color} />
+                        subreddit={subreddit}  />
                     </Grid.Column>
                 </Grid.Row>
             </Grid>
@@ -34,7 +33,7 @@ const GridLayout = (props) => {
     return(
         <Card.Group>
             {posts.map(post => 
-            <GridElement key={post.title} color={color}
+            <GridElement key={post.id} color={color}
             post={post} subreddit={subreddit} />)}
         </Card.Group>
     );

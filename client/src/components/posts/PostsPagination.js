@@ -13,7 +13,8 @@ class PostsPagination extends Component{
         return(<PaginationComponent 
             items = {this.props.posts} 
             pageSize = {this.props.numPostsPerPage}
-            onChangePage={this.handleChangePage.bind(this)} />);
+            onChangePage={this.handleChangePage.bind(this)} 
+            initialPage={1}/>);
     }
 }
 

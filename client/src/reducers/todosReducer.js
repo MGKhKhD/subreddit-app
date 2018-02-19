@@ -1,5 +1,5 @@
 import {UPDATE_SAVE_FLAG_OF_TODO, 
-    ADD_TODO, 
+    ADD_TODO_TO_LIST, 
     INITILAIZE_SETTING_LIST, 
     SHOW_ACTIVE_SUBREDDIT_MODAL, 
     DELETE_TODO_FROM_LIST, 
@@ -8,16 +8,17 @@ import {UPDATE_SAVE_FLAG_OF_TODO,
 
 export  function todos(state=[], action){
     switch(action.type){
-        case ADD_TODO:
+        case ADD_TODO_TO_LIST:
             return [...state, {
-                todo: action.payload,
-                saved: action.saved
+                todo: action.text,
+                saved: false,
+                category:'untitled'
             }];
         case UPDATE_SAVE_FLAG_OF_TODO:
-            return state.map(obj => obj.todo === action.payload.subreddit?
-            {...obj, saved: true, category: action.payload.category} : obj);
+            return state.map(obj => obj.todo === action.response.subreddit?
+            {...obj, saved: true, category: action.response.category} : obj);
         case DELETE_TODO_FROM_LIST:
-            return state.filter(obj => obj.todo !== action.payload);    
+            return state.filter(obj => obj.todo !== action.text);    
         default: 
             return state;
     }
@@ -26,7 +27,7 @@ export  function todos(state=[], action){
 export function todosFromBD(state=[], action){
     switch(action.type){
         case INITILAIZE_SETTING_LIST:
-            return action.payload;
+            return action.subreddits;
         default:
             return state;
     }
@@ -35,21 +36,12 @@ export function todosFromBD(state=[], action){
 export function categories(state=[], action){
     switch(action.type){
         case ADD_CATEGORY:
-            return action.payload;
+            return action.categories;
         case PERSIST_CATEGORY_LIST:
-            return action.payload;
+            return action.categories;
         default: 
             return state;
     }
 }
 
-
-export function todoClick(state={}, action){
-    switch(action.type){
-        case "TODO_CLICK":
-             return action.payload;
-        default: 
-            return state;
-    }
-}
 

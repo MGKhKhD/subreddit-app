@@ -3,8 +3,7 @@ import { Item, Grid } from 'semantic-ui-react';
 
 import CustomaryModal from '../../containers/CustomaryModal';
 
-const ItemElement = ({post, subreddit, color}) =>{
-    console.log(post);
+const ItemElement = ({post, subreddit}) =>{
     const imageUrl =  post.preview ? post.preview.images[0].source.url : 
     'https://i.redd.it/4qezgmi0x87z.png';
     return(
@@ -21,8 +20,8 @@ const ItemElement = ({post, subreddit, color}) =>{
                     <Grid.Column>Author: {post.author}</Grid.Column>
                     <Grid.Column>Areated: {post.created}</Grid.Column>
                     <Grid.Column textAlign='right'><CustomaryModal post={post} 
-                subreddit={subreddit} 
-                color={color} /></Grid.Column>
+                subreddit={subreddit} />
+                </Grid.Column>
                 </Grid.Row>
             </Grid>
         </Item.Extra>
@@ -36,7 +35,7 @@ const {posts, subreddit, color} = props;
   return(
     <Item.Group link>
     {posts.map(post => 
-              <ItemElement key={post.title} color={color}
+              <ItemElement key={post.id} color={color}
               post={post} subreddit={subreddit}/>)}
     </Item.Group>
   );
