@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import { Message, Grid, Segment } from 'semantic-ui-react';
 import { connect } from 'react-redux';
-import { fetchSubreddit } from '../actions/fetching_subreddit';
+import { fetchSubredditToDisplay, abortFetchPosts } from '../actions/fetching_subreddit';
 
 
 import DisplayPosts from '../components/posts/DisplayPosts';
@@ -12,7 +12,7 @@ import PostsPagination from '../components/posts/PostsPagination';
  
 
 class Dashboard extends Component{
-    state = {posts: [], 
+    state = { 
         postsToDisplay: [],
         loading: false, 
         errors: {},
@@ -25,18 +25,23 @@ class Dashboard extends Component{
         }
     }
 
+    componentWillUnmount(){
+        if(this.state.selectedSubreddit && this.props.receivePosts.posts){
+            this.props.abortFetchPosts(this.state.selectedSubreddit, 'leave_page');
+        }
+    }
+
     setSubreddit = (subreddit, color) => {
+        if(this.state.selectedSubreddit && this.props.receivePosts.requested){
+            this.props.abortFetchPosts(this.state.selectedSubreddit, 'click_subreddit');
+        }
         this.setState({loading: true, selectedSubreddit: subreddit, color: color});
-        this.props.fetchSubreddit(subreddit, this.props.sort)
-        .then(response => {
-            this.setState({posts: response.data, loading: false});
-        }).catch(err => {
-            this.setState({errors: err});
-        });
+        this.props.fetchSubreddit(subreddit, this.props.sort);
     }
 
     render(){
-        const { posts, loading, errors, selectedSubreddit, showingModal, color } = this.state;
+        const { loading, errors, selectedSubreddit, showingModal, color } = this.state;
+        const { posts } = this.props.receivePosts;
         if(this.props.isConfirmed){
             return(
                 <div className='ui container'> 
@@ -89,7 +94,8 @@ class Dashboard extends Component{
 
 function mapDispatchToProps(dispatch){
     return {
-        fetchSubreddit: (subject, sort) => dispatch(fetchSubreddit(subject, sort))
+        fetchSubreddit: (subject, sort) => dispatch(fetchSubredditToDisplay(subject, sort)),
+        abortFetchPosts: (subreddit, reason) => dispatch(abortFetchPosts(subreddit, reason))
     };
 }
 
@@ -97,7 +103,8 @@ function mapStateToProps(state){
     return {
         isConfirmed: state.authState.confirmed,
         displayScheme: state.displayScheme,
-        sort: state.sortPosts
+        sort: state.sortPosts,
+        receivePosts: state.receivePosts
     }
 }
 

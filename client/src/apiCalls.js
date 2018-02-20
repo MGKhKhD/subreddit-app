@@ -1,11 +1,25 @@
 import axios from 'axios';
+import 'abortcontroller-polyfill';
 import setTokenHeader from './utils/setTokenHeader';
+
+const AbortController = window.AbortController;
 
 export default {
     fetchFromInternet :{
         fetchData: (subject, sort) => {
             return fetch(`https://www.reddit.com/search.json?q=${subject}&sort=${sort}&limit=100`)
             .then(response => response.json())
+        },
+        fetchSubredditData: (subject, sort, abort) => {
+            let controller = new AbortController();
+            let signal = controller.signal;
+            if(abort){
+                controller.abort();
+                return fetch(`https://www.reddit.com/search.json?q=${subject}&sort=${sort}&limit=100`, {signal});
+            }else{
+                return fetch(`https://www.reddit.com/search.json?q=${subject}&sort=${sort}&limit=100`)
+                .then(response => response.json());
+            }
         }
     },
     categoryAPI: {

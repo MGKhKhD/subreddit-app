@@ -1,7 +1,6 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
-import _ from 'lodash';
-import { fetchSubreddit } from '../actions/fetching_subreddit';
+import { fetchCancellationOfSubredditInSaveOrDismissTodo } from '../actions/fetching_subreddit';
 import { saveTodoDB, fetchCategories } from '../actions/index.js';
 
 
@@ -28,14 +27,11 @@ class CardSaveButton extends Component{
 class SubredditCardItem extends Component{
     constructor(props){
         super(props);
-        this.state= {posts: [], errors:{}};
+        this.state= {errors:{}};
 
     }
 
     componentWillMount(){
-        this.props.fetchSubreddit(this.props.todo.todo)
-        .then(response => 
-            this.setState({posts: response.payload}));
 
         this.props.fetchCategories()
         .catch(err => {
@@ -49,8 +45,7 @@ class SubredditCardItem extends Component{
 
     render(){
         const {todo, onSave, onDismiss, categories } = this.props;
-        const { posts } = this.state;
-        const post = _.sample(posts);
+        const post = todo.post;
         return(
             <Card >
             <Card.Content>           
@@ -70,8 +65,12 @@ class SubredditCardItem extends Component{
                     selectCategory={(category)=>{
                         this.props.onSaveClick(todo.todo, category);
                         onSave();
+                        this.props.cancelSubredditFetch(todo.todo);
                     }}/>
-                    <Button basic color='red' onClick={() => onDismiss()}>Dismiss</Button>
+                    <Button basic color='red' onClick={() => {
+                        this.props.cancelSubredditFetch(todo.todo);
+                        onDismiss();
+                    }}>Dismiss</Button>
                 </div>
               </Card.Content>       
             </Card>
@@ -81,15 +80,15 @@ class SubredditCardItem extends Component{
 
 function mapStateToProps(state){
     return{
-        categories: state.categories
+        categories: state.categories,
     };
 }
 
 function mapDispatchToProps(dispatch){
     return{
         onSaveClick: (todo, category) => dispatch(saveTodoDB(todo, category)),
-        fetchSubreddit: text => dispatch(fetchSubreddit(text)),
-        fetchCategories: () => dispatch(fetchCategories())
+        fetchCategories: () => dispatch(fetchCategories()),
+        cancelSubredditFetch: subreddit => dispatch(fetchCancellationOfSubredditInSaveOrDismissTodo(subreddit))
     }
 }
 

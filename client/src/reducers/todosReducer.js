@@ -12,7 +12,8 @@ export  function todos(state=[], action){
             return [...state, {
                 todo: action.text,
                 saved: false,
-                category:'untitled'
+                category:'untitled',
+                post: action.post
             }];
         case UPDATE_SAVE_FLAG_OF_TODO:
             return state.map(obj => obj.todo === action.response.subreddit?

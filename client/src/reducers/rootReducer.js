@@ -6,7 +6,7 @@ import { displayScheme } from './display_posts_reducer';
 import {bookmarks} from './bookmarksReducer';
 
 export default combineReducers({
-    todos, 
+    todos,
     receivePosts,
     sortPosts,
     todosFromBD,
