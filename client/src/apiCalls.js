@@ -15,7 +15,7 @@ export default {
             let signal = controller.signal;
             if(abort){
                 controller.abort();
-                return fetch(`https://www.reddit.com/search.json?q=${subject}&sort=${sort}&limit=100`, {signal});
+                return fetch(`https://www.reddit.com/search.json?q=${subject}&sort=${sort}&limit=100`, { signal });
             }else{
                 return fetch(`https://www.reddit.com/search.json?q=${subject}&sort=${sort}&limit=100`)
                 .then(response => response.json());

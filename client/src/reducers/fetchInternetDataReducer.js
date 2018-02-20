@@ -14,30 +14,60 @@ export function receivePosts(state={
     {
     switch(action.type){
         case REQUEST_POSTS: 
-            return {...state, requested: true};
-        case FAILURE_POSTS:
-            return {...state, requested: false,
+            return {posts:[],
+                requested: true,
                 failure:
-                {status: true, 
-                count: state.failure.count++},
-                success: false
+                        {
+                        status: false, 
+                        count: 0
+                    },
+                success: false,
+                cancelled: {status: false, reason: ''},
+                subreddit: action.subreddit};
+        case FAILURE_POSTS:
+            return {posts:[],
+                requested: false,
+                failure:
+                    {
+                        status: true, 
+                        count: state.failure.count++
+                    },
+                success: false,
+                cancelled: {status: false, reason: ''},
+                subreddit: action.subreddit
             };
         case SUBREDDIT_FETCH_CANCELLATION:
-            return {...state,
+            return {posts:[],
                 requested: false,
                 success: false,
-                failure: {status: false, count: 0},
+                failure: 
+                        {
+                            status: false, 
+                            count: 0
+                        },
                 cancelled: 
-                {status: true, 
-                    reason: action.reason}
-                }
+                        {
+                            status: true, 
+                            reason: action.reason
+                        },
+                subreddit: action.subreddit
+                        }
         case RECEIVE_POSTS:
-            return {...state, 
+            return {
                 posts: action.data,
                 requested: false,
-                failure: {status: false, count: 0},
-                cancelled: {status: false, reason: ''} ,
-                success: true
+                failure: 
+                    {
+                        status: false, 
+                        count: 0
+                    },
+                cancelled: 
+                    {
+                        status: false, 
+                        reason: ''
+                    } ,
+                success: true,
+                subreddit: action.subreddit
             };
         default:
             return state;

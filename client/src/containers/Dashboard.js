@@ -32,7 +32,7 @@ class Dashboard extends Component{
     }
 
     setSubreddit = (subreddit, color) => {
-        if(this.state.selectedSubreddit && this.props.receivePosts.requested){
+        if(this.state.selectedSubreddit !== this.props.receivePosts.subreddit && this.props.receivePosts.posts){
             this.props.abortFetchPosts(this.state.selectedSubreddit, 'click_subreddit');
         }
         this.setState({loading: true, selectedSubreddit: subreddit, color: color});
