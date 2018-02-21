@@ -3,7 +3,10 @@ import {UPDATE_SAVE_FLAG_OF_TODO,
     INITILAIZE_SETTING_LIST, ADD_TODO_TO_LIST,
     SHOW_ACTIVE_SUBREDDIT_MODAL,
     DELETE_TODO_FROM_LIST, 
-    SET_FETCHING_TO_UPDATED, ADD_CATEGORY, PERSIST_CATEGORY_LIST } from '../types';
+    SET_FETCHING_TO_UPDATED, 
+    ADD_CATEGORY, 
+    PERSIST_CATEGORY_LIST,
+    SUBREDDIT_FETCH_CANCELLATION_SAVE_OR_DISMISS_TODO } from '../types';
 import setTokenHeader from '../utils/setTokenHeader';
 import {createSyncAction} from './actionCreators';
 import _ from 'lodash';
@@ -16,6 +19,8 @@ export const settingListInitialized = createSyncAction(INITILAIZE_SETTING_LIST, 
 
 export const persisCategoryList = createSyncAction(PERSIST_CATEGORY_LIST, 'categories');
 export const categoryAdded = createSyncAction(ADD_CATEGORY, 'categories');
+
+export const fetchCancellationOfSubredditInSaveOrDismissTodo = createSyncAction(SUBREDDIT_FETCH_CANCELLATION_SAVE_OR_DISMISS_TODO, 'subreddit')
 
 
 export const checkIfSubredditExist = (subreddit) => dispatch => 

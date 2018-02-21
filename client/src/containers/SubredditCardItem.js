@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
-import { fetchCancellationOfSubredditInSaveOrDismissTodo } from '../actions/fetching_subreddit';
+import { fetchCancellationOfSubredditInSaveOrDismissTodo } from '../actions/index';
 import { saveTodoDB, fetchCategories } from '../actions/index.js';
 
 
