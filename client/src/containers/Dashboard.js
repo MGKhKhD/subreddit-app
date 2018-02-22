@@ -31,7 +31,9 @@ class Dashboard extends Component{
     }
 
     componentWillUnmount(){
-        if(this.state.selectedSubreddit && this.props.receivePosts[this.state.selectedSubreddit].posts){
+        if(this.state.selectedSubreddit && 
+            this.props.receivePosts[this.state.selectedSubreddit].posts &&
+            this.props.receivePosts[this.state.selectedSubreddit].requested){
             this.props.abortFetchPosts(this.state.selectedSubreddit, 'leave_page');
         }
         this.props.unsetActiveSubreddit();
@@ -40,12 +42,16 @@ class Dashboard extends Component{
     setSubreddit = (subreddit, color) => {
         const { selectedSubreddit } = this.state;
         if(selectedSubreddit){
-            if(subreddit !== this.props.receivePosts[selectedSubreddit].subreddit && this.props.receivePosts[selectedSubreddit].posts){
+            if(subreddit !== this.props.receivePosts[selectedSubreddit].subreddit && 
+                this.props.receivePosts[selectedSubreddit].posts &&
+                this.props.receivePosts[this.state.selectedSubreddit].requested
+            ){
                 this.props.abortFetchPosts(selectedSubreddit, 'click_subreddit');
             }
         }
 
         this.setState({loading: true, selectedSubreddit: subreddit, color: color});
+        
         const { receivePosts } = this.props;
         if(receivePosts[subreddit]){
             let lastUpdate = receivePosts[subreddit].updatedAt;
