@@ -9,21 +9,24 @@ import { RECEIVE_POSTS,
     DESTROY_ACTIVE_SUBREDDIT } from '../types';
 import api from '../apiCalls';
 import {createSyncAction} from './actionCreators';
+import { getSort } from '../reducers/rootReducer';
 
-export const requestPosts = createSyncAction(REQUEST_POSTS, 'subreddit');
+export const requestPosts = createSyncAction(REQUEST_POSTS, 'subreddit', 'sort');
 export const failurePosts = createSyncAction(FAILURE_POSTS, 'subreddit');
-export const receivePosts = createSyncAction(RECEIVE_POSTS, 'data', 'subreddit', 'receivedAt');
-export const sortBy = createSyncAction(SORT_SUBREDDIT_BY, 'sort');
-export const setAbortFetchPosts = createSyncAction(SUBREDDIT_FETCH_CANCELLATION, 'subreddit', 'reason');
+export const receivePosts = createSyncAction(RECEIVE_POSTS, 'data', 'subreddit', 'sort', 'receivedAt');
+export const setAbortFetchPosts = createSyncAction(SUBREDDIT_FETCH_CANCELLATION, 'subreddit', 'sort','reason');
 export const dumpReceivePosts = createSyncAction(DUMP_RECIEVE_POSTS_FROM_STATE);
 export const unsetActiveSubreddit = createSyncAction(DESTROY_ACTIVE_SUBREDDIT);
-export const setActiveSubreddit = createSyncAction(ACTIVE_SUBREDDIT, 'subreddit')
+export const setActiveSubreddit = createSyncAction(ACTIVE_SUBREDDIT, 'subreddit');
 
-// aborting undergoing fetch if the use leaves the page or change the subreddit
-export const abortFetchPosts = (subreddit, reason) => (dispatch, getState) => {
-    dispatch(setAbortFetchPosts(subreddit, reason));
+export const sortBy = (sort, subreddit) => dispatch => {
+    dispatch(requestPosts(subreddit, sort));
+};
+
+// aborting undergoing fetch if the user leaves the page or click a new subreddit
+export const abortFetchPosts = (subreddit, sort, reason) => (dispatch, getState) => {
+    dispatch(setAbortFetchPosts(subreddit, sort, reason));
     const shouldAbort = getState().receivePosts[subreddit].cancelled.status;
-    const sort = getState().sortPosts;
     if (shouldAbort && reason === 'leave_page'){
         return api.fetchFromInternet.fetchSubredditData(subreddit, sort, true)
         .catch(err => {
@@ -34,43 +37,45 @@ export const abortFetchPosts = (subreddit, reason) => (dispatch, getState) => {
     }else if (shouldAbort && reason === 'click_subreddit'){
         return api.fetchFromInternet.fetchSubredditData(subreddit, sort, true)
         .catch(err => console.log('click_new_subreddit', err));
+    }else if (shouldAbort && reason === 'click_subreddit_sort'){
+        return api.fetchFromInternet.fetchSubredditData(subreddit, sort, true)
+        .catch(err => console.log('click_resorting_subreddit', err));
     }
 }
 
 // setting the active subreddit and firing the timeout to inform the user 
 // about the possible refresh of posts when time arrives
-export const watchActiveSubreddit = subreddit => (dispatch) => {
+export const watchActiveSubreddit = (subreddit, sort) => (dispatch) => {
     dispatch(setActiveSubreddit(subreddit));
 
     setTimeout( () => {
-        dispatch(refreshPosts(subreddit));
+        dispatch(refreshPosts(subreddit, sort));
     }, 10 * 60 * 1000);
 };
 
 //fetching subredits for the display
 export const fetchSubredditToDisplay = (subreddit, sort) => (dispatch) => {
-    dispatch(requestPosts(subreddit));
+    dispatch(requestPosts(subreddit, sort));
     return api.fetchFromInternet.fetchSubredditData(subreddit, sort, false)
     .then(jsonData => {
         let mappedData = jsonData.data.children.map(child => child.data);
-        dispatch(receivePosts(mappedData, subreddit, Date.now()));
-        dispatch(watchActiveSubreddit(subreddit));
+        dispatch(receivePosts(mappedData, subreddit, sort, Date.now()));
+        dispatch(watchActiveSubreddit(subreddit, sort));
     })
     .catch(err => dispatch(failurePosts(subreddit)));    
 };
 
 // refreshing the posts provided that 10 min is passed from the previous update
-export const refreshPosts = (subreddit) => (dispatch, getState) => {
+export const refreshPosts = (subreddit, sort) => (dispatch, getState) => {
     let activeSubreddit = getState().activeSubreddit;
     if(activeSubreddit && activeSubreddit === subreddit){
-        let sort = getState().sortPosts;
         let lastUpdate = getState().receivePosts[subreddit].updatedAt;
         let timeSpan = Date.now() - lastUpdate;
         if(timeSpan > 10 * 60 * 1000){
             return api.fetchFromInternet.fetchSubredditData(subreddit, sort, false)
             .then(jsonData => {
                 let mappedData = jsonData.data.children.map(child => child.data);
-                dispatch(receivePosts(mappedData, subreddit, Date.now()))
+                dispatch(receivePosts(mappedData, subreddit, sort, Date.now()))
             })
             .catch(err => dispatch(failurePosts(subreddit)));
         }else{

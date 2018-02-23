@@ -33,7 +33,7 @@ class ChooseSubreddit extends Component{
                         style={{ margin: '0.5em', height: 50 }}
                         onClick={()=>{
                             this.props.chosenSubreddit(todo.subreddit, colors[indColor]);
-                            this.props.sortBy('new');
+                            this.props.sortBy('new', todo.subreddit);
                         }} 
                         value={this.props.value}>{todo.subreddit}
                         </Grid.Column>);
@@ -53,7 +53,7 @@ function mapStateToProps(state){
 function mapDispatchToProps(dispatch){
     return {
         initializeList: () => dispatch(initializeSettingList()),
-        sortBy: sort => dispatch(sortBy(sort))
+        sortBy: (sort, subreddit) => dispatch(sortBy(sort, subreddit))
     };
 }
 

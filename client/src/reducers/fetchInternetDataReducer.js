@@ -1,16 +1,19 @@
 import { RECEIVE_POSTS, 
     REQUEST_POSTS,
-    FAILURE_POSTS,
-    SORT_SUBREDDIT_BY, 
+    FAILURE_POSTS, 
     DUMP_RECIEVE_POSTS_FROM_STATE,
     SUBREDDIT_FETCH_CANCELLATION,
     ACTIVE_SUBREDDIT,
+    SORT_SUBREDDIT_BY,
     DESTROY_ACTIVE_SUBREDDIT } from '../types';
 
 import _ from 'lodash';
 
 export function posts(state={
-    posts: [], 
+    posts: [{
+        sort: 'new',
+        posts: []
+    }], 
     requested: false,
     cancelled: {status: false, reason: ''},
     failure: {status: false, count: 0},
@@ -20,6 +23,7 @@ export function posts(state={
     switch(action.type){
         case REQUEST_POSTS: 
             return {...state,
+                posts: [...state.posts, {...state, sort: action.sort}],
                 requested: true,
                 failure:
                         {
@@ -44,6 +48,7 @@ export function posts(state={
             };
         case SUBREDDIT_FETCH_CANCELLATION:
             return {...state,
+                posts: [...state.posts, {...state, sort: action.sort}],
                 requested: false,
                 success: false,
                 failure: 
@@ -60,7 +65,7 @@ export function posts(state={
                         }
         case RECEIVE_POSTS:
             return {...state,
-                posts: action.data,
+                posts: [...state.posts, , {sort: action.sort, posts: action.data}], 
                 requested: false,
                 failure: 
                     {
@@ -83,7 +88,7 @@ export function posts(state={
 
 export function receivePosts(state={}, action){
     switch(action.type){
-        case RECEIVE_POSTS:
+        case REQUEST_POSTS:
         case FAILURE_POSTS:
         case SUBREDDIT_FETCH_CANCELLATION:
         case RECEIVE_POSTS:
@@ -102,15 +107,6 @@ export function receivePosts(state={}, action){
     }
 }
 
-export function sortPosts(state='new', action){
-    switch(action.type){
-        case SORT_SUBREDDIT_BY:
-            return action.sort;
-        default:
-            return state;
-    }
-}
-
 export function activeSubreddit(state={}, action){
     switch(action.type){
         case ACTIVE_SUBREDDIT:
@@ -120,5 +116,25 @@ export function activeSubreddit(state={}, action){
         }
         default:
             return state;    
+    }
+}
+
+
+export const activeSort = (state) => {
+    let subreddit = state.activeSubreddit;
+    return receivePosts[subreddit]? receivePosts[subreddit].posts.sort : 'new';
+}
+
+export const activePosts = (state) => {
+    let subreddit = state.activeSubreddit;
+    let sort = activeSort(state);
+    if(receivePosts[subreddit]){
+        for (let key in receivePosts[subreddit].posts){
+            if(sort === receivePosts[subreddit].posts[key].sort){
+                return receivePosts[subreddit].posts[key].posts;
+            }else{
+                return [];
+            }
+        }
     }
 }

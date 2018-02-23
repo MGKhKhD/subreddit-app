@@ -1,0 +1,1 @@
+export const CONTENT_IS_UP_TO_DATE = "content is up-to-date";

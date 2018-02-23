@@ -6,6 +6,7 @@ import { connect } from 'react-redux';
 import { fetchSubredditToDisplay, 
         abortFetchPosts,
         unsetActiveSubreddit } from '../actions/fetching_subreddit';
+import {getSort, getPosts} from '../reducers/rootReducer';
 
 
 import DisplayPosts from '../components/posts/DisplayPosts';
@@ -23,18 +24,29 @@ class Dashboard extends Component{
         selectedSubreddit: ''
     };
 
+    reSetSubreddit = (subreddit, newSort, oldSort) => {
+        if(subreddit){
+            if(this.props.receivePosts[subreddit].requested
+            ){
+                this.props.abortFetchPosts(subreddit, oldSort,'click_subreddit_sort');
+            }
+        }
+
+        this.setState({loading: true});
+        this.props.fetchSubreddit(subreddit, newSort);
+    }
 
     componentWillReceiveProps(nextProps){
         if(nextProps.sort !== this.props.sort){
-            this.setSubreddit(this.state.selectedSubreddit, nextProps.sort);
+            this.reSetSubreddit(this.state.selectedSubreddit, nextProps.sort, this.props.sort);
         }
     }
 
     componentWillUnmount(){
         if(this.state.selectedSubreddit && 
-            this.props.receivePosts[this.state.selectedSubreddit].posts &&
+            this.props.posts &&
             this.props.receivePosts[this.state.selectedSubreddit].requested){
-            this.props.abortFetchPosts(this.state.selectedSubreddit, 'leave_page');
+            this.props.abortFetchPosts(this.state.selectedSubreddit, this.props.sort, 'leave_page');
         }
         this.props.unsetActiveSubreddit();
     }
@@ -43,15 +55,15 @@ class Dashboard extends Component{
         const { selectedSubreddit } = this.state;
         if(selectedSubreddit){
             if(subreddit !== this.props.receivePosts[selectedSubreddit].subreddit && 
-                this.props.receivePosts[selectedSubreddit].posts &&
+                this.props.posts &&
                 this.props.receivePosts[this.state.selectedSubreddit].requested
             ){
-                this.props.abortFetchPosts(selectedSubreddit, 'click_subreddit');
+                this.props.abortFetchPosts(selectedSubreddit, this.props.sort, 'click_subreddit');
             }
         }
 
         this.setState({loading: true, selectedSubreddit: subreddit, color: color});
-        
+
         const { receivePosts } = this.props;
         if(receivePosts[subreddit]){
             let lastUpdate = receivePosts[subreddit].updatedAt;
@@ -66,11 +78,7 @@ class Dashboard extends Component{
 
     render(){
         const { loading, errors, selectedSubreddit, showingModal, color } = this.state;
-        const { receivePosts } = this.props;
-        let posts = [];
-        if(selectedSubreddit){
-            posts = receivePosts[selectedSubreddit].posts;
-        }
+        const { posts } = this.props;
         if(this.props.isConfirmed){
             return(
                 <div className='ui container'> 
@@ -86,7 +94,7 @@ class Dashboard extends Component{
                                             </Message>}
                         </Grid.Column>
                         <Grid.Column width={14}>
-                        {(posts.length > 0) && 
+                        {(!!posts) && 
                             <Grid>
                                 <Grid.Row>
                                     <PostsDisplayOptions 
@@ -133,7 +141,8 @@ function mapStateToProps(state){
     return {
         isConfirmed: state.authState.confirmed,
         displayScheme: state.displayScheme,
-        sort: state.sortPosts,
+        sort: getSort(state),
+        posts: getPosts(state),
         receivePosts: state.receivePosts,
         activeSubreddit: state.activeSubreddit
     }
