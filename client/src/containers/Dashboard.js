@@ -25,8 +25,8 @@ class Dashboard extends Component{
     };
 
     reSetSubreddit = (subreddit, newSort, oldSort) => {
-        if(subreddit){
-            if(this.props.receivePosts[subreddit].requested
+        if(subreddit && this.props.status.subreddit === subreddit){
+            if(this.props.status.requested
             ){
                 this.props.abortFetchPosts(subreddit, oldSort,'click_subreddit_sort');
             }
@@ -45,7 +45,7 @@ class Dashboard extends Component{
     componentWillUnmount(){
         if(this.state.selectedSubreddit && 
             this.props.posts &&
-            this.props.receivePosts[this.state.selectedSubreddit].requested){
+            this.props.status.requested){
             this.props.abortFetchPosts(this.state.selectedSubreddit, this.props.sort, 'leave_page');
         }
         this.props.unsetActiveSubreddit();
@@ -54,9 +54,9 @@ class Dashboard extends Component{
     setSubreddit = (subreddit, color) => {
         const { selectedSubreddit } = this.state;
         if(selectedSubreddit){
-            if(subreddit !== this.props.receivePosts[selectedSubreddit].subreddit && 
+            if(subreddit !== this.props.status.subreddit && 
                 this.props.posts &&
-                this.props.receivePosts[this.state.selectedSubreddit].requested
+                this.props.status.requested
             ){
                 this.props.abortFetchPosts(selectedSubreddit, this.props.sort, 'click_subreddit');
             }
@@ -64,9 +64,9 @@ class Dashboard extends Component{
 
         this.setState({loading: true, selectedSubreddit: subreddit, color: color});
 
-        const { receivePosts } = this.props;
-        if(receivePosts[subreddit]){
-            let lastUpdate = receivePosts[subreddit].updatedAt;
+        const { receivePosts, sort, status } = this.props;
+        if(receivePosts[`subreddit_${sort}`]){
+            let lastUpdate = status.updatedAt;
             let timeSpan = Date.now() - lastUpdate;
             if(timeSpan > 10 * 60 * 1000 ){
                 this.props.fetchSubreddit(subreddit, this.props.sort);
@@ -143,8 +143,9 @@ function mapStateToProps(state){
         displayScheme: state.displayScheme,
         sort: getSort(state),
         posts: getPosts(state),
-        receivePosts: state.receivePosts,
-        activeSubreddit: state.activeSubreddit
+        receivePosts: state.posts.receivePosts,
+        activeSubreddit: state.posts.activeSubreddit,
+        status: state.posts.postsMetaStatus
     }
 }
 

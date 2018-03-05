@@ -1,5 +1,4 @@
 import { RECEIVE_POSTS, 
-    SORT_SUBREDDIT_BY, 
     REQUEST_POSTS,
     FAILURE_POSTS,
     SUBREDDIT_FETCH_CANCELLATION,
@@ -17,7 +16,7 @@ export const receivePosts = createSyncAction(RECEIVE_POSTS, 'data', 'subreddit',
 export const setAbortFetchPosts = createSyncAction(SUBREDDIT_FETCH_CANCELLATION, 'subreddit', 'sort','reason');
 export const dumpReceivePosts = createSyncAction(DUMP_RECIEVE_POSTS_FROM_STATE);
 export const unsetActiveSubreddit = createSyncAction(DESTROY_ACTIVE_SUBREDDIT);
-export const setActiveSubreddit = createSyncAction(ACTIVE_SUBREDDIT, 'subreddit');
+export const setActiveSubreddit = createSyncAction(ACTIVE_SUBREDDIT, 'subreddit','sort');
 
 export const sortBy = (sort, subreddit) => dispatch => {
     dispatch(requestPosts(subreddit, sort));
@@ -26,7 +25,7 @@ export const sortBy = (sort, subreddit) => dispatch => {
 // aborting undergoing fetch if the user leaves the page or click a new subreddit
 export const abortFetchPosts = (subreddit, sort, reason) => (dispatch, getState) => {
     dispatch(setAbortFetchPosts(subreddit, sort, reason));
-    const shouldAbort = getState().receivePosts[subreddit].cancelled.status;
+    const shouldAbort = getState().posts.postsMetaStatus.cancelled.status;
     if (shouldAbort && reason === 'leave_page'){
         return api.fetchFromInternet.fetchSubredditData(subreddit, sort, true)
         .catch(err => {
@@ -46,7 +45,7 @@ export const abortFetchPosts = (subreddit, sort, reason) => (dispatch, getState)
 // setting the active subreddit and firing the timeout to inform the user 
 // about the possible refresh of posts when time arrives
 export const watchActiveSubreddit = (subreddit, sort) => (dispatch) => {
-    dispatch(setActiveSubreddit(subreddit));
+    dispatch(setActiveSubreddit(subreddit,sort));
 
     setTimeout( () => {
         dispatch(refreshPosts(subreddit, sort));
@@ -67,7 +66,7 @@ export const fetchSubredditToDisplay = (subreddit, sort) => (dispatch) => {
 
 // refreshing the posts provided that 10 min is passed from the previous update
 export const refreshPosts = (subreddit, sort) => (dispatch, getState) => {
-    let activeSubreddit = getState().activeSubreddit;
+    let activeSubreddit = getState().posts.activeSubreddit;
     if(activeSubreddit && activeSubreddit === subreddit){
         let lastUpdate = getState().receivePosts[subreddit].updatedAt;
         let timeSpan = Date.now() - lastUpdate;

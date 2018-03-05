@@ -1,3 +1,5 @@
+import { combineReducers } from 'redux';
+
 import { RECEIVE_POSTS, 
     REQUEST_POSTS,
     FAILURE_POSTS, 
@@ -9,21 +11,18 @@ import { RECEIVE_POSTS,
 
 import _ from 'lodash';
 
-export function posts(state={
-    posts: [{
-        sort: 'new',
-        posts: []
-    }], 
+function statusOfPosts(state={
+    subreddit: '',
+    sort: 'new', 
     requested: false,
     cancelled: {status: false, reason: ''},
     failure: {status: false, count: 0},
     success: false}, 
-    action={})
+    action)
     {
     switch(action.type){
         case REQUEST_POSTS: 
-            return {...state,
-                posts: [...state.posts, {...state, sort: action.sort}],
+            return {
                 requested: true,
                 failure:
                         {
@@ -32,10 +31,11 @@ export function posts(state={
                     },
                 success: false,
                 cancelled: {status: false, reason: ''},
-                subreddit: action.subreddit
+                subreddit: action.subreddit,
+                sort: action.sort
             };
         case FAILURE_POSTS:
-            return {...state,
+            return {
                 requested: false,
                 failure:
                     {
@@ -44,11 +44,11 @@ export function posts(state={
                     },
                 success: false,
                 cancelled: {status: false, reason: ''},
-                subreddit: action.subreddit
+                subreddit: action.subreddit,
+                sort: action.sort
             };
         case SUBREDDIT_FETCH_CANCELLATION:
-            return {...state,
-                posts: [...state.posts, {...state, sort: action.sort}],
+            return {
                 requested: false,
                 success: false,
                 failure: 
@@ -61,11 +61,11 @@ export function posts(state={
                             status: true, 
                             reason: action.reason
                         },
-                        subreddit: action.subreddit
+                        subreddit: action.subreddit,
+                        sort: action.sort
                         }
         case RECEIVE_POSTS:
-            return {...state,
-                posts: [...state.posts, , {sort: action.sort, posts: action.data}], 
+            return {
                 requested: false,
                 failure: 
                     {
@@ -79,21 +79,47 @@ export function posts(state={
                     } ,
                 success: true,
                 updatedAt: action.receivedAt,
-                subreddit: action.subreddit
+                subreddit: action.subreddit,
+                sort: action.sort
             };
         default:
             return state;
     }
 }
 
-export function receivePosts(state={}, action){
+function postsMetaStatus(state={}, action){
     switch(action.type){
         case REQUEST_POSTS:
         case FAILURE_POSTS:
         case SUBREDDIT_FETCH_CANCELLATION:
         case RECEIVE_POSTS:
             return {...state,
-            [action.subreddit]: posts(state[action.subreddit], action)
+            [`${action.subreddit}_${action.sort}`]: 
+            statusOfPosts(state[`${action.subreddit}_${action.sort}`], action)
+        };
+    }
+}
+
+function subredditPosts(state={
+    sort: 'new',
+    posts: []
+}, action){
+    switch(action.type){
+        case RECEIVE_POSTS: 
+            return [...state, {sort: action.sort, posts: action.data}];
+        default: return state;
+    }
+}
+
+function receivePosts(state={}, action){
+    switch(action.type){
+        case REQUEST_POSTS:
+        case FAILURE_POSTS:
+        case SUBREDDIT_FETCH_CANCELLATION:
+        case RECEIVE_POSTS:
+            return {...state,
+            [`${action.subreddit}_${action.sort}`]: 
+            subredditPosts(state[`${action.subreddit}_${action.sort}`], action)
         };
         case DUMP_RECIEVE_POSTS_FROM_STATE:
             {
@@ -107,10 +133,10 @@ export function receivePosts(state={}, action){
     }
 }
 
-export function activeSubreddit(state={}, action){
+function activeSubreddit(state={subreddit: '', sort:'new'}, action){
     switch(action.type){
         case ACTIVE_SUBREDDIT:
-            return action.subreddit;
+            return {subreddit: action.subreddit, sort: action.sort};
         case DESTROY_ACTIVE_SUBREDDIT:{
             return null;
         }
@@ -119,22 +145,23 @@ export function activeSubreddit(state={}, action){
     }
 }
 
-
 export const activeSort = (state) => {
-    let subreddit = state.activeSubreddit;
-    return receivePosts[subreddit]? receivePosts[subreddit].posts.sort : 'new';
+    return state.activeSubreddit.sort;
 }
 
 export const activePosts = (state) => {
-    let subreddit = state.activeSubreddit;
+    let subreddit = state.activeSubreddit.subreddit;
     let sort = activeSort(state);
-    if(receivePosts[subreddit]){
-        for (let key in receivePosts[subreddit].posts){
-            if(sort === receivePosts[subreddit].posts[key].sort){
-                return receivePosts[subreddit].posts[key].posts;
+    if(state.receivePosts[`${subreddit}_${sort}`]){
+                return state.receivePosts[`${subreddit}_${sort}`].posts;
             }else{
                 return [];
             }
-        }
     }
-}
+
+    export const posts = combineReducers({
+        activeSubreddit,
+        receivePosts,
+        postsMetaStatus
+    });
+    

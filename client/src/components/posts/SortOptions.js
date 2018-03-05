@@ -32,7 +32,7 @@ function mapDispatchToProps(dispatch){
 function mapStateToProps(state){
     return{
         sort: getSort(state),
-        subreddit: state.activeSubreddit
+        subreddit: state.posts.activeSubreddit
     }
 }
 
